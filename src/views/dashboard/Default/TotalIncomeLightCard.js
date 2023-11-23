@@ -77,7 +77,7 @@ const TotalIncomeLightCard = ({ isLoading }) => {
                     <Typography
                       variant="subtitle2"
                       sx={{
-                        color: theme.palette.grey[500],
+                        color: theme.palette.error.dark,
                         mt: 0.5
                       }}
                     >
