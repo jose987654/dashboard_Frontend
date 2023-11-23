@@ -19,7 +19,6 @@ const utilities = {
   title: 'Utilities',
   type: 'group',
   children: [
-    
     {
       id: 'util-color',
       title: 'Search Console API',
@@ -27,7 +26,8 @@ const utilities = {
       url: '/dashboard/search_api',
       icon: icons.IconSearch,
       breadcrumbs: false
-    },{
+    },
+    {
       id: 'util-typography',
       title: 'Ads. Campaign API',
       type: 'item',
