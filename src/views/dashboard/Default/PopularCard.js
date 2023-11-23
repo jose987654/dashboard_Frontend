@@ -6,7 +6,7 @@ import { useTheme } from '@mui/material/styles';
 import { Avatar, Button, CardActions, CardContent, Divider, Grid, Menu, MenuItem, Typography } from '@mui/material';
 
 // project imports
-import BajajAreaChartCard from './BajajAreaChartCard';
+// import BajajAreaChartCard from './BajajAreaChartCard';
 import MainCard from '../../../ui-component/cards/MainCard';
 import SkeletonPopularCard from '../../../ui-component/cards/Skeleton/PopularCard';
 import { gridSpacing } from '../../../store/constant';
@@ -43,7 +43,7 @@ const PopularCard = ({ isLoading }) => {
               <Grid item xs={12}>
                 <Grid container alignContent="center" justifyContent="space-between">
                   <Grid item>
-                    <Typography variant="h4">Popular Stocks</Typography>
+                    <Typography variant="h4">Popular Countries</Typography>
                   </Grid>
                   <Grid item>
                     <MoreHorizOutlinedIcon
@@ -79,9 +79,9 @@ const PopularCard = ({ isLoading }) => {
                   </Grid>
                 </Grid>
               </Grid>
-              <Grid item xs={12} sx={{ pt: '16px !important' }}>
+              {/* <Grid item xs={12} sx={{ pt: '16px !important' }}>
                 <BajajAreaChartCard />
-              </Grid>
+              </Grid> */}
               <Grid item xs={12}>
                 <Grid container direction="column">
                   <Grid item>
