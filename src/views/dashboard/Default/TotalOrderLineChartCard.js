@@ -138,7 +138,7 @@ const TotalOrderLineChartCard = ({ isLoading }) => {
                     <Typography sx={{ fontSize: '1.125rem', fontWeight: 300, mr: 1, mt: 1.75, mb: 0.75 }}>campaigns</Typography>
                   </Grid>
                   <Grid item>
-                    <Link to="/">
+                    <Link to="/dashboard/ads_api">
                       <Avatar
                         sx={{
                           ...theme.typography.smallAvatar,

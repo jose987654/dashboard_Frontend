@@ -149,7 +149,7 @@ const EarningCard = ({ isLoading }) => {
                     <Typography sx={{ fontSize: '1.125rem', fontWeight: 300, mr: 1, mt: 1.75, mb: 0.75 }}>clicks</Typography>
                   </Grid>
                   <Grid item>
-                    <Link to="/">
+                    <Link to="/dashboard/search_api">
                       <Avatar
                         sx={{
                           cursor: 'pointer',
