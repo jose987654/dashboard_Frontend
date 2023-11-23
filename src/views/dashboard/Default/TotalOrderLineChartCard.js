@@ -6,19 +6,20 @@ import { useTheme, styled } from '@mui/material/styles';
 import { Avatar, Box, Button, Grid, Typography } from '@mui/material';
 
 // third-party
-import Chart from 'react-apexcharts';
-
+// import Chart from 'react-apexcharts';
+import { Link } from 'react-router-dom';
 // project imports
 
 import MainCard from '../../../ui-component/cards/MainCard';
 import SkeletonTotalOrderCard from '../../../ui-component/cards/Skeleton/EarningCard';
 
-import ChartDataMonth from './chart-data/total-order-month-line-chart';
-import ChartDataYear from './chart-data/total-order-year-line-chart';
+// import ChartDataMonth from './chart-data/total-order-month-line-chart';
+// import ChartDataYear from './chart-data/total-order-year-line-chart';
 
 // assets
 import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
-import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+// import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 
 const CardWrapper = styled(MainCard)(({ theme }) => ({
   backgroundColor: theme.palette.primary.dark,
@@ -118,46 +119,55 @@ const TotalOrderLineChartCard = ({ isLoading }) => {
                   </Grid>
                 </Grid>
               </Grid>
-              <Grid item sx={{ mb: 0.75 }}>
+              <Grid item>
+                {/* <Grid container alignItems="center">
+                  <Grid item> */}
                 <Grid container alignItems="center">
-                  <Grid item xs={6}>
-                    <Grid container alignItems="center">
-                      <Grid item>
-                        {timeValue ? (
-                          <Typography sx={{ fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75 }}>$108</Typography>
-                        ) : (
-                          <Typography sx={{ fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75 }}>$961</Typography>
-                        )}
-                      </Grid>
-                      <Grid item>
-                        <Avatar
-                          sx={{
-                            ...theme.typography.smallAvatar,
-                            cursor: 'pointer',
-                            backgroundColor: theme.palette.primary[200],
-                            color: theme.palette.primary.dark
-                          }}
-                        >
-                          <ArrowDownwardIcon fontSize="inherit" sx={{ transform: 'rotate3d(1, 1, 1, 45deg)' }} />
-                        </Avatar>
-                      </Grid>
-                      <Grid item xs={12}>
-                        <Typography
-                          sx={{
-                            fontSize: '1rem',
-                            fontWeight: 500,
-                            color: theme.palette.primary[200]
-                          }}
-                        >
-                          Total Order
-                        </Typography>
-                      </Grid>
-                    </Grid>
+                  <Grid item>
+                    {timeValue ? (
+                      <>
+                        <Typography sx={{ fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75 }}>4.0</Typography>
+                      </>
+                    ) : (
+                      <>
+                        <Typography sx={{ fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75 }}>5.0</Typography>
+                      </>
+                    )}
                   </Grid>
-                  <Grid item xs={6}>
-                    {timeValue ? <Chart {...ChartDataMonth} /> : <Chart {...ChartDataYear} />}
+                  <Grid item>
+                    <Typography sx={{ fontSize: '1.125rem', fontWeight: 300, mr: 1, mt: 1.75, mb: 0.75 }}>campaigns</Typography>
+                  </Grid>
+                  <Grid item>
+                    <Link to="/">
+                      <Avatar
+                        sx={{
+                          ...theme.typography.smallAvatar,
+                          cursor: 'pointer',
+                          backgroundColor: theme.palette.primary[200],
+                          color: theme.palette.primary.dark
+                        }}
+                      >
+                        <ArrowUpwardIcon fontSize="inherit" sx={{ transform: 'rotate3d(1, 1, 1, 45deg)' }} />
+                      </Avatar>
+                    </Link>
+                  </Grid>
+                  <Grid item xs={12} sx={{ mb: 1.25 }}>
+                    <Typography
+                      sx={{
+                        fontSize: '1rem',
+                        fontWeight: 500,
+                        color: theme.palette.primary[200]
+                      }}
+                    >
+                      Ad. campaign API
+                    </Typography>
                   </Grid>
                 </Grid>
+                {/* </Grid> */}
+                {/* <Grid item xs={6}>
+                    {timeValue ? <Chart {...ChartDataMonth} /> : <Chart {...ChartDataYear} />}
+                  </Grid> */}
+                {/* </Grid> */}
               </Grid>
             </Grid>
           </Box>

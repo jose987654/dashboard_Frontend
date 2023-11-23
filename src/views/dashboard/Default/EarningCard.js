@@ -4,7 +4,7 @@ import { useState } from 'react';
 // material-ui
 import { styled, useTheme } from '@mui/material/styles';
 import { Avatar, Box, Grid, Menu, MenuItem, Typography } from '@mui/material';
-
+import { Link } from 'react-router-dom';
 // project imports
 import MainCard from '../../../ui-component/cards/MainCard';
 import SkeletonEarningCard from '../../../ui-component/cards/Skeleton/EarningCard';
@@ -143,19 +143,24 @@ const EarningCard = ({ isLoading }) => {
               <Grid item>
                 <Grid container alignItems="center">
                   <Grid item>
-                    <Typography sx={{ fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75 }}>$500.00</Typography>
+                    <Typography sx={{ fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75 }}>54,223</Typography>
                   </Grid>
                   <Grid item>
-                    <Avatar
-                      sx={{
-                        cursor: 'pointer',
-                        ...theme.typography.smallAvatar,
-                        backgroundColor: theme.palette.secondary[200],
-                        color: theme.palette.secondary.dark
-                      }}
-                    >
-                      <ArrowUpwardIcon fontSize="inherit" sx={{ transform: 'rotate3d(1, 1, 1, 45deg)' }} />
-                    </Avatar>
+                    <Typography sx={{ fontSize: '1.125rem', fontWeight: 300, mr: 1, mt: 1.75, mb: 0.75 }}>clicks</Typography>
+                  </Grid>
+                  <Grid item>
+                    <Link to="/">
+                      <Avatar
+                        sx={{
+                          cursor: 'pointer',
+                          ...theme.typography.smallAvatar,
+                          backgroundColor: theme.palette.secondary[200],
+                          color: theme.palette.secondary.dark
+                        }}
+                      >
+                        <ArrowUpwardIcon fontSize="inherit" sx={{ transform: 'rotate3d(1, 1, 1, 45deg)' }} />
+                      </Avatar>
+                    </Link>
                   </Grid>
                 </Grid>
               </Grid>
@@ -167,7 +172,7 @@ const EarningCard = ({ isLoading }) => {
                     color: theme.palette.secondary[200]
                   }}
                 >
-                  Total Earning
+                  Search Console API
                 </Typography>
               </Grid>
             </Grid>

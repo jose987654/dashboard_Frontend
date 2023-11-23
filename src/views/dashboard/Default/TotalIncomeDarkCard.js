@@ -72,10 +72,10 @@ const TotalIncomeDarkCard = ({ isLoading }) => {
                     mt: 0.45,
                     mb: 0.45
                   }}
-                  primary={<Typography variant="h4">32033</Typography>}
+                  primary={<Typography variant="h4">32,033</Typography>}
                   secondary={
                     <Typography variant="subtitle2" sx={{ color: theme.palette.success.main, mt: 0.25 }}>
-                      Total Clicks
+                      Total Ad. Clicks
                     </Typography>
                   }
                 />
