@@ -12,9 +12,11 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import SubCard from '../../ui-component/cards/SubCard';
 import MainCard from '../../ui-component/cards/MainCard';
+import Button from '@mui/material/Button';
 // import SecondaryAction from '../../ui-component/cards/CardSecondaryAction';
 import { gridSpacing } from '../../store/constant';
-import { getEmailList } from '../../services/email';
+import { getEmailList, deleteEmail } from '../../services/email';
+// import { getEmailList, updateEmail, deleteEmail, deleteAllEmail } from '../../services/email';
 import { SyncLoader } from 'react-spinners';
 
 // ===============================|| EMAIL ||=============================== //
@@ -43,7 +45,7 @@ const EmailComponent = () => {
   const fetchData = async () => {
     try {
       const data = await getEmailList();
-      console.log('data 1', data);
+      // console.log('data 1', data);
       setData(data?.data?.all_recipients);
       setLoading(false);
     } catch (error) {
@@ -55,6 +57,24 @@ const EmailComponent = () => {
   useEffect(() => {
     fetchData();
   }, []);
+
+  // const deleteAllemails = async () => {
+  //   const response = await deleteAllEmail();
+  // window.location.reload();
+  // };
+  const deleteSingle = async (email) => {
+    const response = await deleteEmail({ email: email });
+    setLoading(true);
+    console.log('response', response);
+    const data = await getEmailList();
+    // console.log('data 1', data);
+    setData(data?.data?.all_recipients);
+    setLoading(false);
+  };
+  // const updateEmail = async () => {
+  // {"old_email": "emaiel2@example.com", "new_email": "Vmaiel2@example.com"}
+  //   const response = await updateEmail();
+  // };
 
   if (loading) {
     return (
@@ -87,9 +107,8 @@ const EmailComponent = () => {
                           <StyledTableCell align="center">No.</StyledTableCell>
                           <StyledTableCell>Email Address</StyledTableCell>
                           <StyledTableCell align="center">Role</StyledTableCell>
-                          <StyledTableCell align="center">Update</StyledTableCell>
+                          {/* <StyledTableCell align="center">Update</StyledTableCell> */}
                           <StyledTableCell align="center">Remove</StyledTableCell>
-                          
                         </TableRow>
                       </TableHead>
                       <TableBody>
@@ -100,9 +119,17 @@ const EmailComponent = () => {
                               {email?.email}
                             </StyledTableCell>
                             <StyledTableCell align="center">{email?.role}</StyledTableCell>
-                            <StyledTableCell align="center">Update</StyledTableCell>
-                            <StyledTableCell align="center">Remove</StyledTableCell>
-                           
+                            {/* <StyledTableCell align="center">Update</StyledTableCell> */}
+                            {/* <StyledTableCell align="center">Remove</StyledTableCell> */}
+                            <StyledTableCell align="center">
+                              <Button
+                                variant="contained"
+                                style={{ backgroundColor: '#8B0000', color: 'white' }}
+                                onClick={() => deleteSingle(email?.email)}
+                              >
+                                Remove
+                              </Button>
+                            </StyledTableCell>
                           </StyledTableRow>
                         ))}
                       </TableBody>
