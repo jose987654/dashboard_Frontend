@@ -1,8 +1,10 @@
 import { useState } from 'react';
 // import { useSelector } from 'react-redux';
-
-// material-ui
+import { loginFunction } from '../../../../services/user';
 import { useTheme } from '@mui/material/styles';
+import { PulseLoader } from 'react-spinners';
+// import { css } from '@emotion/react';
+import Alert from '../../../../ui-component/cards/Alert';
 import {
   Box,
   Button,
@@ -11,7 +13,7 @@ import {
   FormControl,
   FormControlLabel,
   FormHelperText,
-  // Grid,
+  Grid,
   IconButton,
   InputAdornment,
   InputLabel,
@@ -34,7 +36,8 @@ const Auth_Login = ({ ...others }) => {
   // const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
   // const customization = useSelector((state) => state.customization);
   const [checked, setChecked] = useState(true);
-
+  const [loading, setLoading] = useState(false);
+  const [loginError, setLoginError] = useState('');
   // const googleHandler = async () => {
   //   console.error('Login');
   // };
@@ -123,6 +126,12 @@ const Auth_Login = ({ ...others }) => {
           try {
             if (scriptedRef.current) {
               console.log('values', values);
+              setLoading(true);
+              let result = await loginFunction(values);
+              setLoading(false);
+              if (result?.name === 'AxiosError') {
+                setLoginError(result?.response?.data?.message || result?.message);
+              }
               setStatus({ success: true });
               setSubmitting(false);
             }
@@ -138,8 +147,22 @@ const Auth_Login = ({ ...others }) => {
       >
         {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
           <form noValidate onSubmit={handleSubmit} {...others}>
+            {loginError ? <Alert text={loginError} error /> : null}
+
+            {loading && (
+              <Grid item xs={12} style={{ textAlign: 'center' }}>
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center'
+                  }}
+                >
+                  <PulseLoader size={15} color="#006064" loading={loading} />
+                </div>
+              </Grid>
+            )}
             <FormControl fullWidth error={Boolean(touched.email && errors.email)} sx={{ ...theme.typography.customInput }}>
-              <InputLabel htmlFor="outlined-adornment-email-login">Email Address / Username</InputLabel>
+              <InputLabel htmlFor="outlined-adornment-email-login">Email Address </InputLabel>
               <OutlinedInput
                 id="outlined-adornment-email-login"
                 type="email"
@@ -147,7 +170,7 @@ const Auth_Login = ({ ...others }) => {
                 name="email"
                 onBlur={handleBlur}
                 onChange={handleChange}
-                label="Email Address / Username"
+                label="Email Address "
                 inputProps={{}}
                 placeholder="info@seedr.com"
               />

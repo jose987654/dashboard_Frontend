@@ -1,7 +1,10 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 // import { useSelector } from 'react-redux';
+import { signupFunction } from '../../../../services/user';
 import { useTheme } from '@mui/material/styles';
+import { PulseLoader } from 'react-spinners';
+import Alert from '../../../../ui-component/cards/Alert';
 import {
   Box,
   Button,
@@ -35,13 +38,14 @@ const Auth_Register = ({ ...others }) => {
   // const customization = useSelector((state) => state.customization);
   const [showPassword, setShowPassword] = useState(false);
   const [checked, setChecked] = useState(true);
-
+  const [loading, setLoading] = useState(false);
   const [strength, setStrength] = useState(0);
   const [level, setLevel] = useState();
 
   // const googleHandler = async () => {
   //   console.error('Register');
   // };
+  const [loginError, setLoginError] = useState('');
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -132,6 +136,12 @@ const Auth_Register = ({ ...others }) => {
           try {
             if (scriptedRef.current) {
               console.log('values', values);
+              setLoading(true);
+              let result = await signupFunction(values);
+              setLoading(false);
+              if (result?.name === 'AxiosError') {
+                setLoginError(result?.response?.data?.message || result?.message);
+              }
               setStatus({ success: true });
               setSubmitting(false);
             }
@@ -147,6 +157,19 @@ const Auth_Register = ({ ...others }) => {
       >
         {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
           <form noValidate onSubmit={handleSubmit} {...others}>
+            {loginError ? <Alert text={loginError} error /> : null}
+            {loading && (
+              <Grid item xs={12} style={{ textAlign: 'center' }}>
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center'
+                  }}
+                >
+                  <PulseLoader size={15} color="#006064" loading={loading} />
+                </div>
+              </Grid>
+            )}
             <Grid container spacing={matchDownSM ? 0 : 2}>
               <Grid item xs={12} sm={6}>
                 <TextField
