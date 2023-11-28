@@ -111,8 +111,8 @@ const Auth_Login = ({ ...others }) => {
 
       <Formik
         initialValues={{
-          email: 'info@seedr.com',
-          password: '123456',
+          email: '',
+          password: '',
           submit: null
         }}
         validationSchema={Yup.object().shape({
@@ -149,6 +149,7 @@ const Auth_Login = ({ ...others }) => {
                 onChange={handleChange}
                 label="Email Address / Username"
                 inputProps={{}}
+                placeholder="info@seedr.com"
               />
               {touched.email && errors.email && (
                 <FormHelperText error id="standard-weight-helper-text-email-login">
