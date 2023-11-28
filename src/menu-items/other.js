@@ -1,10 +1,6 @@
-// assets
 import { IconBrandChrome, IconHelp } from '@tabler/icons';
 
-// constant
 const icons = { IconBrandChrome, IconHelp };
-
-// ==============================|| SAMPLE PAGE & DOCUMENTATION MENU ITEMS ||============================== //
 
 const other = {
   id: 'sample-docs-roadmap',
@@ -22,7 +18,7 @@ const other = {
       id: 'documentation',
       title: 'Documentation',
       type: 'item',
-      url: 'https://codedthemes.gitbook.io/berry/',
+      url: '/',
       icon: icons.IconHelp,
       external: true,
       target: true

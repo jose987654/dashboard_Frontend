@@ -1,7 +1,5 @@
-// assets
 import { IconWindmill, IconMail, IconAd, IconSearch } from '@tabler/icons';
 
-// constant
 const icons = {
   // IconTypography,
   // IconPalette,
@@ -11,8 +9,6 @@ const icons = {
   IconAd,
   IconSearch
 };
-
-// ==============================|| UTILITIES MENU ITEMS ||============================== //
 
 const utilities = {
   id: 'utilities',
@@ -43,30 +39,6 @@ const utilities = {
       icon: icons.IconMail,
       breadcrumbs: false
     }
-    // {
-    //   id: 'icons',
-    //   title: 'Icons',
-    //   type: 'collapse',
-    //   icon: icons.IconWindmill,
-    //   children: [
-    //     {
-    //       id: 'tabler-icons',
-    //       title: 'Tabler Icons',
-    //       type: 'item',
-    //       url: '/icons/tabler-icons',
-    //       breadcrumbs: false
-    //     },
-    //     {
-    //       id: 'material-icons',
-    //       title: 'Material Icons',
-    //       type: 'item',
-    //       external: true,
-    //       target: '_blank',
-    //       url: 'https://mui.com/material-ui/material-icons/',
-    //       breadcrumbs: false
-    //     }
-    //   ]
-    // }
   ]
 };
 
