@@ -14,7 +14,7 @@ import chartData from './chart-data/bajaj-area-chart';
 
 // ===========================|| DASHBOARD DEFAULT - BAJAJ AREA CHART CARD ||=========================== //
 
-const BajajAreaChartCard = () => {
+const ChartCard = () => {
   const theme = useTheme();
   const customization = useSelector((state) => state.customization);
   const { navType } = customization;
@@ -60,4 +60,4 @@ const BajajAreaChartCard = () => {
   );
 };
 
-export default BajajAreaChartCard;
+export default ChartCard;

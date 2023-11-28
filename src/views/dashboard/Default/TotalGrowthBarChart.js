@@ -1,21 +1,13 @@
 import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-
-// material-ui
 import { useTheme } from '@mui/material/styles';
 import { Grid, MenuItem, TextField, Typography } from '@mui/material';
-
-// third-party
 import ApexCharts from 'apexcharts';
 import Chart from 'react-apexcharts';
-
-// project imports
 import SkeletonTotalGrowthBarChart from '../../../ui-component/cards/Skeleton/TotalGrowthBarChart';
 import MainCard from '../../../ui-component/cards/MainCard';
 import { gridSpacing } from '../../../store/constant';
-
-// chart data
 import chartData from './chart-data/total-growth-bar-chart';
 
 const status = [
@@ -32,8 +24,6 @@ const status = [
     label: 'This Year'
   }
 ];
-
-// ==============================|| DASHBOARD DEFAULT - TOTAL GROWTH BAR CHART ||============================== //
 
 const TotalGrowthBarChart = ({ isLoading }) => {
   const [value, setValue] = useState('today');
@@ -102,9 +92,6 @@ const TotalGrowthBarChart = ({ isLoading }) => {
                     <Grid item>
                       <Typography variant="subtitle2">Search API</Typography>
                     </Grid>
-                    {/* <Grid item>
-                      <Typography variant="h3">$2,324.00</Typography>
-                    </Grid> */}
                   </Grid>
                 </Grid>
                 <Grid item>

@@ -1,23 +1,13 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
-
-// material-ui
 import { useTheme } from '@mui/material/styles';
 import { Avatar, Button, CardActions, CardContent, Divider, Grid, Menu, MenuItem, Typography } from '@mui/material';
-
-// project imports
-// import BajajAreaChartCard from './BajajAreaChartCard';
 import MainCard from '../../../ui-component/cards/MainCard';
 import SkeletonPopularCard from '../../../ui-component/cards/Skeleton/PopularCard';
 import { gridSpacing } from '../../../store/constant';
-
-// assets
 import ChevronRightOutlinedIcon from '@mui/icons-material/ChevronRightOutlined';
 import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined';
-
 import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
-
-// ==============================|| DASHBOARD DEFAULT - POPULAR CARD ||============================== //
 
 const PopularCard = ({ isLoading }) => {
   const theme = useTheme();
@@ -132,9 +122,7 @@ const PopularCard = ({ isLoading }) => {
                   </Grid>
                 </Grid>
               </Grid>
-              {/* <Grid item xs={12} sx={{ pt: '16px !important' }}>
-                <BajajAreaChartCard />
-              </Grid> */}
+
               <Grid item xs={12}>
                 {data.map((item, index) => (
                   <Grid key={index}>

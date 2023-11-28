@@ -1,23 +1,13 @@
 import { lazy } from 'react';
-
-// project imports
 import MainLayout from '../layout/MainLayout/index.js';
 import Loadable from '../ui-component/Loadable';
 
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('../views/dashboard/Default')));
-
-// utilities routing
-const UtilsTypography = Loadable(lazy(() => import('../views/utilities/Typography')));
-const UtilsColor = Loadable(lazy(() => import('../views/utilities/Email')));
-const UtilsShadow = Loadable(lazy(() => import('../views/utilities/Shadow')));
-// const UtilsMaterialIcons = Loadable(lazy(() => import('../views/utilities/MaterialIcons')));
-// const UtilsTablerIcons = Loadable(lazy(() => import('../views/utilities/TablerIcons')));
-
-// sample page routing
+const AdsComponent = Loadable(lazy(() => import('../views/utilities/Typography')));
+const EmailComponent = Loadable(lazy(() => import('../views/utilities/Email')));
+const ShadowComponent = Loadable(lazy(() => import('../views/utilities/Shadow')));
 const SamplePage = Loadable(lazy(() => import('../views/sample-page')));
-
-// ==============================|| MAIN ROUTING ||============================== //
 
 const MainRoutes = {
   path: '/',
@@ -41,7 +31,7 @@ const MainRoutes = {
       children: [
         {
           path: 'ads_api',
-          element: <UtilsTypography />
+          element: <AdsComponent />
         }
       ]
     },
@@ -50,7 +40,7 @@ const MainRoutes = {
       children: [
         {
           path: 'search_api',
-          element: <UtilsShadow />
+          element: <ShadowComponent />
         }
       ]
     },
@@ -59,55 +49,11 @@ const MainRoutes = {
       children: [
         {
           path: 'email',
-          element: <UtilsColor />
+          element: <EmailComponent />
         }
       ]
     },
-    // {
-    //   path: 'utils',
-    //   children: [
-    //     {
-    //       path: 'util-typography',
-    //       element: <UtilsTypography />
-    //     }
-    //   ]
-    // },
-    // {
-    //   path: 'utils',
-    //   children: [
-    //     {
-    //       path: 'util-color',
-    //       element: <UtilsColor />
-    //     }
-    //   ]
-    // },
-    // {
-    //   path: 'utils',
-    //   children: [
-    //     {
-    //       path: 'util-shadow',
-    //       element: <UtilsShadow />
-    //     }
-    //   ]
-    // },
-    // {
-    //   path: 'icons',
-    //   children: [
-    //     {
-    //       path: 'tabler-icons',
-    //       element: <UtilsTablerIcons />
-    //     }
-    //   ]
-    // },
-    // {
-    //   path: 'icons',
-    //   children: [
-    //     {
-    //       path: 'material-icons',
-    //       element: <UtilsMaterialIcons />
-    //     }
-    //   ]
-    // },
+
     {
       path: 'sample-page',
       element: <SamplePage />
