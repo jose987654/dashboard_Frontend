@@ -7,6 +7,7 @@ export const token = localStorage.getItem('access_token');
 export const refresh_token = localStorage.getItem('refresh_token');
 export const user_role = localStorage.getItem('user_role');
 export const userID = localStorage.getItem('userID');
+const user_id = { user_id: !isNaN(userID) ? Number(userID) : null };
 
 export let axiosConfig = {
   headers: {
@@ -76,20 +77,26 @@ export async function signupFunction(Payload) {
 
 export async function logoutFunction() {
   await axios
-    .post(`${baseUrl}/logout`, userID, axiosConfig)
+    .post(`${baseUrl}/logout`, user_id)
     .then(function (response) {
-      console.log(response);
-      console.log('succesful logout');
-      // localStorage.removeItem("sessionActive");
-      // toast.success("Logout Successful", {
-      //   position: toast.POSITION.TOP_RIGHT,
-      //   autoClose: 600,
-      // });
-      //   window.location.replace('/login');
+      console.log('succesful logout', response);
+      localStorage.removeItem('access_token');
+      localStorage.removeItem('refresh_token');
+      localStorage.removeItem('user_role');
+      localStorage.removeItem('user_role');
+      toast.success('Logout Successful', {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 600
+      });
+      window.location.replace('/login');
     })
     .catch((err) => {
       console.log('ERROR RESPONSE', err);
-      //   sessionStorage.clear();
+      toast.error('Failed.', {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 3000
+      });
+
       //   window.location.replace('/login');
     });
 }

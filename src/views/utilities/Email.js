@@ -106,6 +106,8 @@ const EmailComponent = () => {
                         <TableRow>
                           <StyledTableCell align="center">No.</StyledTableCell>
                           <StyledTableCell>Email Address</StyledTableCell>
+                          <StyledTableCell>First Name</StyledTableCell>
+                          <StyledTableCell>Last Name</StyledTableCell>
                           <StyledTableCell align="center">Role</StyledTableCell>
                           {/* <StyledTableCell align="center">Update</StyledTableCell> */}
                           <StyledTableCell align="center">Remove</StyledTableCell>
@@ -118,6 +120,8 @@ const EmailComponent = () => {
                             <StyledTableCell component="th" scope="row">
                               {email?.email}
                             </StyledTableCell>
+                            <StyledTableCell align="center">{email?.first_name}</StyledTableCell>
+                            <StyledTableCell align="center">{email?.last_name}</StyledTableCell>
                             <StyledTableCell align="center">{email?.role}</StyledTableCell>
                             {/* <StyledTableCell align="center">Update</StyledTableCell> */}
                             {/* <StyledTableCell align="center">Remove</StyledTableCell> */}
@@ -127,7 +131,7 @@ const EmailComponent = () => {
                                 style={{ backgroundColor: '#8B0000', color: 'white' }}
                                 onClick={() => deleteSingle(email?.email)}
                               >
-                                Remove
+                                Remove user
                               </Button>
                             </StyledTableCell>
                           </StyledTableRow>
