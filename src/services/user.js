@@ -76,26 +76,25 @@ export async function signupFunction(Payload) {
 }
 // register function
 export async function resetPasswordFunction(Payload) {
-    try {
-      const response = await axios.post(`${baseUrl}/reset_password`, Payload);
-      console.log('SUCCESSFUL RESPONSE', response);
-      toast.success('Sign up Succesful.', {
-        position: toast.POSITION.TOP_RIGHT,
-        autoClose: 1500
-      });
-      setTimeout(function () {
-        window.location.href = '/login';
-      }, 1300);
-    } catch (err) {
-      console.log('ERROR RESPONSE', err);
-      toast.error('Signup Failed.', {
-        position: toast.POSITION.TOP_RIGHT,
-        autoClose: 3000
-      });
-      return err;
-    }
+  try {
+    const response = await axios.post(`${baseUrl}/reset_password`, Payload);
+    console.log('SUCCESSFUL RESPONSE', response);
+    toast.success('Password Reset Succesful.', {
+      position: toast.POSITION.TOP_RIGHT,
+      autoClose: 1500
+    });
+    setTimeout(function () {
+      window.location.href = '/login';
+    }, 1300);
+  } catch (err) {
+    console.log('ERROR RESPONSE', err);
+    toast.error('Reset Failed.', {
+      position: toast.POSITION.TOP_RIGHT,
+      autoClose: 3000
+    });
+    return err;
   }
-  
+}
 
 export async function logoutFunction() {
   await axios

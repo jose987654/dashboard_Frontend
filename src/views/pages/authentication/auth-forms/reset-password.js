@@ -1,6 +1,7 @@
 import { useState } from 'react';
 // import { useSelector } from 'react-redux';
-import { loginFunction } from '../../../../services/user';
+import { resetPasswordFunction } from '../../../../services/user';
+
 import { useTheme } from '@mui/material/styles';
 import { PulseLoader } from 'react-spinners';
 // import { css } from '@emotion/react';
@@ -8,18 +9,18 @@ import Alert from '../../../../ui-component/cards/Alert';
 import {
   Box,
   Button,
-  Checkbox,
+  //   Checkbox,
   // Divider,
   FormControl,
-  FormControlLabel,
+  //   FormControlLabel,
   FormHelperText,
   Grid,
   IconButton,
   InputAdornment,
   InputLabel,
-  OutlinedInput,
-  Stack,
-  Typography
+  OutlinedInput
+  //   Stack,
+  //   Typography
   // useMediaQuery
 } from '@mui/material';
 import * as Yup from 'yup';
@@ -30,21 +31,12 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 // import Google from '../../../../assets/images/icons/social-google.svg';
 
-const Auth_Login = ({ ...others }) => {
+const Auth_Reset = ({ ...others }) => {
   const theme = useTheme();
   const scriptedRef = useScriptRef();
-  // const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
-  // const customization = useSelector((state) => state.customization);
-  const [checked, setChecked] = useState(true);
+  //   const [checked, setChecked] = useState(true);
   const [loading, setLoading] = useState(false);
   const [loginError, setLoginError] = useState('');
-  // const googleHandler = async () => {
-  //   console.error('Login');
-  // };
-
-  const handleForgotPasswordClick = () => {
-    window.location.href = '/reset_password';
-  };
 
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => {
@@ -57,81 +49,22 @@ const Auth_Login = ({ ...others }) => {
 
   return (
     <>
-      {/* <Grid container direction="column" justifyContent="center" spacing={2}>
-        <Grid item xs={12}>
-          <AnimateButton>
-            <Button
-              disableElevation
-              fullWidth
-              onClick={googleHandler}
-              size="large"
-              variant="outlined"
-              sx={{
-                color: 'grey.700',
-                backgroundColor: theme.palette.grey[50],
-                borderColor: theme.palette.grey[100]
-              }}
-            >
-              <Box sx={{ mr: { xs: 1, sm: 2, width: 20 } }}>
-                <img src={Google} alt="google" width={16} height={16} style={{ marginRight: matchDownSM ? 8 : 16 }} />
-              </Box>
-              Sign in with Google
-            </Button>
-          </AnimateButton>
-        </Grid>
-        <Grid item xs={12}>
-          <Box
-            sx={{
-              alignItems: 'center',
-              display: 'flex'
-            }}
-          >
-            <Divider sx={{ flexGrow: 1 }} orientation="horizontal" />
-
-            <Button
-              variant="outlined"
-              sx={{
-                cursor: 'unset',
-                m: 2,
-                py: 0.5,
-                px: 7,
-                borderColor: `${theme.palette.grey[100]} !important`,
-                color: `${theme.palette.grey[900]}!important`,
-                fontWeight: 500,
-                borderRadius: `${customization.borderRadius}px`
-              }}
-              disableRipple
-              disabled
-            >
-              OR
-            </Button>
-
-            <Divider sx={{ flexGrow: 1 }} orientation="horizontal" />
-          </Box>
-        </Grid>
-        <Grid item xs={12} container alignItems="center" justifyContent="center">
-          <Box sx={{ mb: 2 }}>
-            <Typography variant="subtitle1">Sign in with Email address</Typography>
-          </Box>
-        </Grid>
-      </Grid> */}
-
       <Formik
         initialValues={{
           email: '',
-          password: '',
+          new_password: '',
           submit: null
         }}
         validationSchema={Yup.object().shape({
           email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
-          password: Yup.string().max(255).required('Password is required')
+          new_password: Yup.string().max(255).required('Password is required')
         })}
         onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
           try {
             if (scriptedRef.current) {
               console.log('values', values);
               setLoading(true);
-              let result = await loginFunction(values);
+              let result = await resetPasswordFunction(values);
               setLoading(false);
               if (result?.name === 'AxiosError') {
                 setLoginError(result?.response?.data?.error || result?.message);
@@ -185,12 +118,12 @@ const Auth_Login = ({ ...others }) => {
               )}
             </FormControl>
 
-            <FormControl fullWidth error={Boolean(touched.password && errors.password)} sx={{ ...theme.typography.customInput }}>
-              <InputLabel htmlFor="outlined-adornment-password-login">Password</InputLabel>
+            <FormControl fullWidth error={Boolean(touched.new_password && errors.new_password)} sx={{ ...theme.typography.customInput }}>
+              <InputLabel htmlFor="outlined-adornment-password-login">New Password</InputLabel>
               <OutlinedInput
                 id="outlined-adornment-password-login"
                 type={showPassword ? 'text' : 'password'}
-                value={values.password}
+                value={values.new_password}
                 name="password"
                 onBlur={handleBlur}
                 onChange={handleChange}
@@ -210,29 +143,13 @@ const Auth_Login = ({ ...others }) => {
                 label="Password"
                 inputProps={{}}
               />
-              {touched.password && errors.password && (
+              {touched.new_password && errors.new_password && (
                 <FormHelperText error id="standard-weight-helper-text-password-login">
-                  {errors.password}
+                  {errors.new_password}
                 </FormHelperText>
               )}
             </FormControl>
-            <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={1}>
-              <FormControlLabel
-                control={
-                  <Checkbox checked={checked} onChange={(event) => setChecked(event.target.checked)} name="checked" color="primary" />
-                }
-                label="Remember me"
-              />
-              <Typography
-                variant="subtitle1"
-                color="secondary"
-                sx={{ textDecoration: 'none', cursor: 'pointer' }}
-                onClick={handleForgotPasswordClick}
-              >
-                {' '}
-                Forgot Password?
-              </Typography>
-            </Stack>
+
             {errors.submit && (
               <Box sx={{ mt: 3 }}>
                 <FormHelperText error>{errors.submit}</FormHelperText>
@@ -242,7 +159,7 @@ const Auth_Login = ({ ...others }) => {
             <Box sx={{ mt: 2 }}>
               <AnimateButton>
                 <Button disableElevation disabled={isSubmitting} fullWidth size="large" type="submit" variant="contained" color="secondary">
-                  Sign in
+                  Reset Password
                 </Button>
               </AnimateButton>
             </Box>
@@ -253,4 +170,4 @@ const Auth_Login = ({ ...others }) => {
   );
 };
 
-export default Auth_Login;
+export default Auth_Reset;

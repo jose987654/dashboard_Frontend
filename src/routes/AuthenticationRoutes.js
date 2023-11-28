@@ -6,6 +6,7 @@ import MinimalLayout from '../layout/MinimalLayout';
 
 const Login = Loadable(lazy(() => import('../views/pages/authentication/authentication/Login')));
 const Register = Loadable(lazy(() => import('../views/pages/authentication/authentication/Register')));
+const PasswordReset = Loadable(lazy(() => import('../views/pages/authentication/authentication/Reset')));
 
 const AuthenticationRoutes = {
   path: '/',
@@ -22,6 +23,10 @@ const AuthenticationRoutes = {
     {
       path: '/register',
       element: <Register />
+    },
+    {
+      path: '/reset_password',
+      element: <PasswordReset />
     }
   ]
 };
