@@ -53,7 +53,7 @@ export async function loginFunction(loginPayload) {
     return err;
   }
 }
-// Login function
+// register function
 export async function signupFunction(Payload) {
   try {
     const response = await axios.post(`${baseUrl}/signup?_format=json`, Payload);
@@ -74,6 +74,28 @@ export async function signupFunction(Payload) {
     return err;
   }
 }
+// register function
+export async function resetPasswordFunction(Payload) {
+    try {
+      const response = await axios.post(`${baseUrl}/reset_password`, Payload);
+      console.log('SUCCESSFUL RESPONSE', response);
+      toast.success('Sign up Succesful.', {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 1500
+      });
+      setTimeout(function () {
+        window.location.href = '/login';
+      }, 1300);
+    } catch (err) {
+      console.log('ERROR RESPONSE', err);
+      toast.error('Signup Failed.', {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 3000
+      });
+      return err;
+    }
+  }
+  
 
 export async function logoutFunction() {
   await axios
@@ -96,6 +118,27 @@ export async function logoutFunction() {
         position: toast.POSITION.TOP_RIGHT,
         autoClose: 3000
       });
+
+      //   window.location.replace('/login');
+    });
+}
+
+export function logoutFunctioncustom() {
+  localStorage.removeItem('access_token');
+  localStorage.removeItem('refresh_token');
+  localStorage.removeItem('user_role');
+  localStorage.removeItem('user_role');
+  window.location.replace('/login');
+}
+
+export async function statusFunction() {
+  await axios
+    .get(`${baseUrl}/status`, axiosConfig)
+    .then(function (response) {
+      console.log('status', response);
+    })
+    .catch((err) => {
+      console.log('ERROR RESPONSE', err);
 
       //   window.location.replace('/login');
     });

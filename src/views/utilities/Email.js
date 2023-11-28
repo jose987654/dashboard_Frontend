@@ -13,6 +13,7 @@ import Paper from '@mui/material/Paper';
 import SubCard from '../../ui-component/cards/SubCard';
 import MainCard from '../../ui-component/cards/MainCard';
 import Button from '@mui/material/Button';
+import useTokenStatus from '../../services/status';
 // import SecondaryAction from '../../ui-component/cards/CardSecondaryAction';
 import { gridSpacing } from '../../store/constant';
 import { getEmailList, deleteEmail } from '../../services/email';
@@ -40,6 +41,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   }
 }));
 const EmailComponent = () => {
+  const { tokenStatus, navigateToLogin } = useTokenStatus();
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const fetchData = async () => {
@@ -53,6 +55,11 @@ const EmailComponent = () => {
       setLoading(false);
     }
   };
+  useEffect(() => {
+    if (tokenStatus === 0) {
+      navigateToLogin();
+    }
+  }, [tokenStatus, navigateToLogin]);
   console.log('data', data);
   useEffect(() => {
     fetchData();

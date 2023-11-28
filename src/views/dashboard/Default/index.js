@@ -1,9 +1,5 @@
 import { useEffect, useState } from 'react';
-
-// material-ui
 import { Grid } from '@mui/material';
-
-// project imports
 import EarningCard from './EarningCard';
 import PopularCard from './PopularCard';
 import TotalOrderLineChartCard from './TotalOrderLineChartCard';
@@ -11,14 +7,20 @@ import TotalIncomeDarkCard from './TotalIncomeDarkCard';
 import TotalIncomeLightCard from './TotalIncomeLightCard';
 import TotalGrowthBarChart from './TotalGrowthBarChart';
 import { gridSpacing } from '../../../store/constant';
-
+import useTokenStatus from '../../../services/status';
 // ==============================|| DEFAULT DASHBOARD ||============================== //
 
 const Dashboard = () => {
+  const { tokenStatus, navigateToLogin } = useTokenStatus();
   const [isLoading, setLoading] = useState(true);
   useEffect(() => {
     setLoading(false);
   }, []);
+  useEffect(() => {
+    if (tokenStatus === 0) {
+      navigateToLogin();
+    }
+  }, [tokenStatus, navigateToLogin]);
 
   return (
     <Grid container spacing={gridSpacing}>
