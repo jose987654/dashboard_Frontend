@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+// import { useSelector } from 'react-redux';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
@@ -7,44 +7,37 @@ import {
   Box,
   Button,
   Checkbox,
-  Divider,
+  // Divider,
   FormControl,
   FormControlLabel,
   FormHelperText,
-  Grid,
+  // Grid,
   IconButton,
   InputAdornment,
   InputLabel,
   OutlinedInput,
   Stack,
-  Typography,
-  useMediaQuery
+  Typography
+  // useMediaQuery
 } from '@mui/material';
-
-// third party
 import * as Yup from 'yup';
 import { Formik } from 'formik';
-
-// project imports
 import useScriptRef from '../../../../hooks/useScriptRef';
 import AnimateButton from '../../../../ui-component/extended/AnimateButton';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+// import Google from '../../../../assets/images/icons/social-google.svg';
 
-import Google from '../../../../assets/images/icons/social-google.svg';
-
-// ============================|| FIREBASE - LOGIN ||============================ //
-
-const FirebaseLogin = ({ ...others }) => {
+const Auth_Login = ({ ...others }) => {
   const theme = useTheme();
   const scriptedRef = useScriptRef();
-  const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
-  const customization = useSelector((state) => state.customization);
+  // const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
+  // const customization = useSelector((state) => state.customization);
   const [checked, setChecked] = useState(true);
 
-  const googleHandler = async () => {
-    console.error('Login');
-  };
+  // const googleHandler = async () => {
+  //   console.error('Login');
+  // };
 
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => {
@@ -57,7 +50,7 @@ const FirebaseLogin = ({ ...others }) => {
 
   return (
     <>
-      <Grid container direction="column" justifyContent="center" spacing={2}>
+      {/* <Grid container direction="column" justifyContent="center" spacing={2}>
         <Grid item xs={12}>
           <AnimateButton>
             <Button
@@ -114,11 +107,11 @@ const FirebaseLogin = ({ ...others }) => {
             <Typography variant="subtitle1">Sign in with Email address</Typography>
           </Box>
         </Grid>
-      </Grid>
+      </Grid> */}
 
       <Formik
         initialValues={{
-          email: 'info@codedthemes.com',
+          email: 'info@seedr.com',
           password: '123456',
           submit: null
         }}
@@ -129,6 +122,7 @@ const FirebaseLogin = ({ ...others }) => {
         onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
           try {
             if (scriptedRef.current) {
+              console.log('values', values);
               setStatus({ success: true });
               setSubmitting(false);
             }
@@ -225,4 +219,4 @@ const FirebaseLogin = ({ ...others }) => {
   );
 };
 
-export default FirebaseLogin;
+export default Auth_Login;
