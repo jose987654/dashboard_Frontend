@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { baseUrl } from '.';
 // import React, { useEffect } from 'react';
+import { toast } from 'react-toastify';
 
 export const token = localStorage.getItem('access_token');
 export const refresh_token = localStorage.getItem('refresh_token');
@@ -53,43 +54,42 @@ export async function loginFunction(loginPayload) {
 }
 // Login function
 export async function signupFunction(Payload) {
-  console.log('SUCCESSFUL RESPONSE Payload', Payload);
   try {
-    const response = await axios.post(`${baseUrl}/register?_format=json`, Payload);
+    const response = await axios.post(`${baseUrl}/signup?_format=json`, Payload);
     console.log('SUCCESSFUL RESPONSE', response);
+    toast.success('Sign up Succesful.', {
+      position: toast.POSITION.TOP_RIGHT,
+      autoClose: 1500
+    });
+    setTimeout(function () {
+      window.location.href = '/login';
+    }, 1300);
   } catch (err) {
     console.log('ERROR RESPONSE', err);
-    // toast.error('Login Failed.\nIncorrect Username Or Password.', {
-    //   position: toast.POSITION.TOP_RIGHT,
-    //   autoClose: 30000,
-    // });
+    toast.error('Signup Failed.', {
+      position: toast.POSITION.TOP_RIGHT,
+      autoClose: 3000
+    });
     return err;
   }
 }
 
 export async function logoutFunction() {
   await axios
-    .post(`${baseUrl}/logout`, {
-      headers: {
-        'Content-Type': 'application/json'
-        // 'X-CSRF-Token': csrf_token
-      }
-    })
+    .post(`${baseUrl}/logout`, userID, axiosConfig)
     .then(function (response) {
       console.log(response);
       console.log('succesful logout');
       // localStorage.removeItem("sessionActive");
-      sessionStorage.clear();
       // toast.success("Logout Successful", {
       //   position: toast.POSITION.TOP_RIGHT,
       //   autoClose: 600,
       // });
-      window.location.replace('/login');
-      // setTimeout(function () {}, 100);
+      //   window.location.replace('/login');
     })
     .catch((err) => {
       console.log('ERROR RESPONSE', err);
-      sessionStorage.clear();
-      window.location.replace('/login');
+      //   sessionStorage.clear();
+      //   window.location.replace('/login');
     });
 }

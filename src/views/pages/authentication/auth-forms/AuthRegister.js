@@ -120,15 +120,15 @@ const Auth_Register = ({ ...others }) => {
 
       <Formik
         initialValues={{
-          fname: '',
-          lname: '',
+          first_name: '',
+          last_name: '',
           email: '',
           password: '',
           submit: null
         }}
         validationSchema={Yup.object().shape({
-          fname: Yup.string().max(255).required('Name is required'),
-          lname: Yup.string().max(255).required('Name is required'),
+          first_name: Yup.string().max(255).required('Name is required'),
+          last_name: Yup.string().max(255).required('Name is required'),
           email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
           password: Yup.string().max(255).required('Password is required')
         })}
@@ -176,18 +176,18 @@ const Auth_Register = ({ ...others }) => {
                   fullWidth
                   label="First Name"
                   margin="normal"
-                  name="fname"
+                  name="first_name"
                   type="text"
-                  value={values.fname}
+                  value={values.first_name}
                   onBlur={handleBlur}
                   onChange={handleChange}
                   sx={{ ...theme.typography.customInput }}
                   inputProps={{}}
-                  error={Boolean(touched.fname && errors.fname)}
+                  error={Boolean(touched.first_name && errors.first_name)}
                 />
-                {touched.fname && errors.fname && (
+                {touched.first_name && errors.first_name && (
                   <FormHelperText error id="standard-weight-helper-text--register">
-                    {errors.fname}
+                    {errors.first_name}
                   </FormHelperText>
                 )}
               </Grid>
@@ -196,18 +196,18 @@ const Auth_Register = ({ ...others }) => {
                   fullWidth
                   label="Last Name"
                   margin="normal"
-                  name="lname"
+                  name="last_name"
                   type="text"
                   onBlur={handleBlur}
                   onChange={handleChange}
-                  value={values.lname}
+                  value={values.last_name}
                   sx={{ ...theme.typography.customInput }}
                   inputProps={{}}
-                  error={Boolean(touched.lname && errors.lname)}
+                  error={Boolean(touched.last_name && errors.last_name)}
                 />{' '}
-                {touched.lname && errors.lname && (
+                {touched.last_name && errors.last_name && (
                   <FormHelperText error id="standard-weight-helper-text--register">
-                    {errors.lname}
+                    {errors.last_name}
                   </FormHelperText>
                 )}
               </Grid>
