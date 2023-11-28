@@ -130,7 +130,7 @@ const Auth_Login = ({ ...others }) => {
               let result = await loginFunction(values);
               setLoading(false);
               if (result?.name === 'AxiosError') {
-                setLoginError(result?.response?.data?.message || result?.message);
+                setLoginError(result?.response?.data?.error || result?.message);
               }
               setStatus({ success: true });
               setSubmitting(false);

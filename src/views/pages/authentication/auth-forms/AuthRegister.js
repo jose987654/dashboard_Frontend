@@ -140,7 +140,7 @@ const Auth_Register = ({ ...others }) => {
               let result = await signupFunction(values);
               setLoading(false);
               if (result?.name === 'AxiosError') {
-                setLoginError(result?.response?.data?.message || result?.message);
+                setLoginError(result?.response?.data?.error || result?.message);
               }
               setStatus({ success: true });
               setSubmitting(false);
