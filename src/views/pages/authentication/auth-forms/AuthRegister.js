@@ -1,14 +1,12 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-
-// material-ui
+// import { useSelector } from 'react-redux';
 import { useTheme } from '@mui/material/styles';
 import {
   Box,
   Button,
   Checkbox,
-  Divider,
+  // Divider,
   FormControl,
   FormControlLabel,
   FormHelperText,
@@ -21,37 +19,29 @@ import {
   Typography,
   useMediaQuery
 } from '@mui/material';
-
-// third party
 import * as Yup from 'yup';
 import { Formik } from 'formik';
-
-// project imports
 import useScriptRef from '../../../../hooks/useScriptRef';
-import Google from '../../../../assets/images/icons/social-google.svg';
+// import Google from '../../../../assets/images/icons/social-google.svg';
 import AnimateButton from '../../../../ui-component/extended/AnimateButton';
 import { strengthColor, strengthIndicator } from '../../../../utils/password-strength';
-
-// assets
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
-// ===========================|| FIREBASE - REGISTER ||=========================== //
-
-const FirebaseRegister = ({ ...others }) => {
+const Auth_Register = ({ ...others }) => {
   const theme = useTheme();
   const scriptedRef = useScriptRef();
   const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
-  const customization = useSelector((state) => state.customization);
+  // const customization = useSelector((state) => state.customization);
   const [showPassword, setShowPassword] = useState(false);
   const [checked, setChecked] = useState(true);
 
   const [strength, setStrength] = useState(0);
   const [level, setLevel] = useState();
 
-  const googleHandler = async () => {
-    console.error('Register');
-  };
+  // const googleHandler = async () => {
+  //   console.error('Register');
+  // };
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -73,7 +63,7 @@ const FirebaseRegister = ({ ...others }) => {
 
   return (
     <>
-      <Grid container direction="column" justifyContent="center" spacing={2}>
+      {/* <Grid container direction="column" justifyContent="center" spacing={2}>
         <Grid item xs={12}>
           <AnimateButton>
             <Button
@@ -122,21 +112,26 @@ const FirebaseRegister = ({ ...others }) => {
             <Typography variant="subtitle1">Sign up with Email address</Typography>
           </Box>
         </Grid>
-      </Grid>
+      </Grid> */}
 
       <Formik
         initialValues={{
+          fname: '',
+          lname: '',
           email: '',
           password: '',
           submit: null
         }}
         validationSchema={Yup.object().shape({
+          fname: Yup.string().max(255).required('Name is required'),
+          lname: Yup.string().max(255).required('Name is required'),
           email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
           password: Yup.string().max(255).required('Password is required')
         })}
         onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
           try {
             if (scriptedRef.current) {
+              console.log('values', values);
               setStatus({ success: true });
               setSubmitting(false);
             }
@@ -160,9 +155,18 @@ const FirebaseRegister = ({ ...others }) => {
                   margin="normal"
                   name="fname"
                   type="text"
-                  defaultValue=""
+                  value={values.fname}
+                  onBlur={handleBlur}
+                  onChange={handleChange}
                   sx={{ ...theme.typography.customInput }}
+                  inputProps={{}}
+                  error={Boolean(touched.fname && errors.fname)}
                 />
+                {touched.fname && errors.fname && (
+                  <FormHelperText error id="standard-weight-helper-text--register">
+                    {errors.fname}
+                  </FormHelperText>
+                )}
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
@@ -171,13 +175,22 @@ const FirebaseRegister = ({ ...others }) => {
                   margin="normal"
                   name="lname"
                   type="text"
-                  defaultValue=""
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  value={values.lname}
                   sx={{ ...theme.typography.customInput }}
-                />
+                  inputProps={{}}
+                  error={Boolean(touched.lname && errors.lname)}
+                />{' '}
+                {touched.lname && errors.lname && (
+                  <FormHelperText error id="standard-weight-helper-text--register">
+                    {errors.lname}
+                  </FormHelperText>
+                )}
               </Grid>
             </Grid>
             <FormControl fullWidth error={Boolean(touched.email && errors.email)} sx={{ ...theme.typography.customInput }}>
-              <InputLabel htmlFor="outlined-adornment-email-register">Email Address / Username</InputLabel>
+              <InputLabel htmlFor="outlined-adornment-email-register">Email Address</InputLabel>
               <OutlinedInput
                 id="outlined-adornment-email-register"
                 type="email"
@@ -283,4 +296,4 @@ const FirebaseRegister = ({ ...others }) => {
   );
 };
 
-export default FirebaseRegister;
+export default Auth_Register;
