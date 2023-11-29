@@ -11,15 +11,20 @@ const user_id = { user_id: !isNaN(userID) ? Number(userID) : null };
 
 export let axiosConfig = {
   headers: {
+    'Content-Type': 'application/json;charset=UTF-8',
     Authorization: token
   }
 };
 
 // Login function
 export async function loginFunction(loginPayload) {
-  console.log('SUCCESSFUL RESPONSE loginPayload', loginPayload);
+  console.log('SUCCESSFUL RESPONSE loginPayload', loginPayload, {
+    headers: {
+      'Content-Type': 'application/json;charset=UTF-8'
+    }
+  });
   try {
-    const response = await axios.post(`${baseUrl}/login?_format=json`, loginPayload);
+    const response = await axios.post(`${baseUrl}/login`, loginPayload);
     console.log('SUCCESSFUL RESPONSE', response);
     const access_token = response?.data?.access_token;
     const refresh_token = response?.data?.refresh_token;
@@ -56,7 +61,11 @@ export async function loginFunction(loginPayload) {
 // register function
 export async function signupFunction(Payload) {
   try {
-    const response = await axios.post(`${baseUrl}/signup?_format=json`, Payload);
+    const response = await axios.post(`${baseUrl}/signup`, Payload, {
+      headers: {
+        'Content-Type': 'application/json;charset=UTF-8'
+      }
+    });
     console.log('SUCCESSFUL RESPONSE', response);
     toast.success('Sign up Succesful.', {
       position: toast.POSITION.TOP_RIGHT,

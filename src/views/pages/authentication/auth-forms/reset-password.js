@@ -124,7 +124,7 @@ const Auth_Reset = ({ ...others }) => {
                 id="outlined-adornment-password-login"
                 type={showPassword ? 'text' : 'password'}
                 value={values.new_password}
-                name="password"
+                name="new_password"
                 onBlur={handleBlur}
                 onChange={handleChange}
                 endAdornment={
@@ -140,7 +140,7 @@ const Auth_Reset = ({ ...others }) => {
                     </IconButton>
                   </InputAdornment>
                 }
-                label="Password"
+                label="new_password"
                 inputProps={{}}
               />
               {touched.new_password && errors.new_password && (
