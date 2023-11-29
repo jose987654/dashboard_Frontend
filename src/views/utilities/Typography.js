@@ -11,7 +11,7 @@ import { gridSpacing } from '../../store/constant';
 // ==============================|| TYPOGRAPHY ||============================== //
 
 const Typography = () => (
-  <MainCard title="Ads. Campaign API" secondary={<SecondaryAction link="https://next.material-ui.com/system/typography/" />}>
+  <MainCard title="Ads. Campaign API" secondary={<SecondaryAction link="" />}>
     <Grid container spacing={gridSpacing}>
       {/* <Grid item xs={12} sm={6}>
         <SubCard title="Heading">
