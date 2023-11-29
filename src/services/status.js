@@ -19,10 +19,12 @@ const useTokenStatus = () => {
         } else {
           // Handle error response
           console.error('Error checking token status:', response.statusText);
+          logoutFunctioncustom();
         }
       } catch (error) {
         // Handle network or other errors
         console.error('Error checking token status:', error);
+        logoutFunctioncustom();
       }
     };
 
