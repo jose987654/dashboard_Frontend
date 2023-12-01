@@ -12,7 +12,6 @@ const IFrameWrapper = styled('iframe')(({ theme }) => ({
   borderColor: theme.palette.primary.light
 }));
 
-// ============================|| MATERIAL ICONS ||============================ //
 
 const MaterialIcons = () => (
   <MainCard title="Material Icons" secondary={<SecondaryAction link="#" />}>
