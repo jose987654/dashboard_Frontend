@@ -1,15 +1,13 @@
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-
-// material-ui
 import { Box, Card, Grid } from '@mui/material';
-
-// project imports
-// import SubCard from '../../ui-component/cards/SubCard';
+import { SyncLoader } from 'react-spinners';
+import SubCard from '../../ui-component/cards/SubCard';
 import MainCard from '../../ui-component/cards/MainCard';
-import SecondaryAction from '../../ui-component/cards/CardSecondaryAction';
+// import SecondaryAction from '../../ui-component/cards/CardSecondaryAction';
 import { gridSpacing } from '../../store/constant';
-
-// ===============================|| SHADOW BOX ||=============================== //
+import useTokenStatus from '../../services/status';
+import { getConsoleData } from '../../services';
 
 const ShadowBox = ({ shadow }) => (
   <Card sx={{ mb: 3, boxShadow: shadow }}>
@@ -32,12 +30,51 @@ ShadowBox.propTypes = {
   shadow: PropTypes.string.isRequired
 };
 
-// ============================|| UTILITIES SHADOW ||============================ //
-
-const UtilitiesShadow = () => (
-  <MainCard title="Seach Console API" secondary={<SecondaryAction link="#" />}>
-    <Grid container spacing={gridSpacing}>
-      {/* <Grid item xs={12}>
+const SearchAPIComponent = () => {
+  const { tokenStatus, navigateToLogin } = useTokenStatus();
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const fetchData = async () => {
+    try {
+      const data = await getConsoleData();
+      console.log('data 1', data);
+      setData(data);
+      setLoading(false);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      setLoading(false);
+    }
+  };
+  console.log('data to be rendered here', data);
+  useEffect(() => {
+    fetchData();
+  }, []);
+  useEffect(() => {
+    if (tokenStatus === 0) {
+      navigateToLogin();
+    }
+  }, [tokenStatus, navigateToLogin]);
+  if (loading) {
+    return (
+      <MainCard title="Seach Console API">
+        <Grid container spacing={gridSpacing}>
+          <Grid item xs={12} alignitems="center">
+            <SubCard title="Search Data" secondary={<SyncLoader size={8} color="#5E35B1" loading={loading} />}>
+              <Grid container spacing={gridSpacing} alignitems="center" style={{ minHeight: '200px' }}>
+                <Grid item xs={12} sm={12} md={12} lg={12}>
+                  {/* <FadeLoader size={192} color="#006064" loading={loading} /> */}
+                </Grid>
+              </Grid>
+            </SubCard>
+          </Grid>
+        </Grid>
+      </MainCard>
+    );
+  } else {
+    return (
+      <MainCard title="Seach Console API">
+        <Grid container spacing={gridSpacing}>
+          {/* <Grid item xs={12}>
         <SubCard title="Basic Shadow">
           <Grid container spacing={gridSpacing}>
             <Grid item xs={12} sm={6} md={4} lg={3}>
@@ -118,8 +155,10 @@ const UtilitiesShadow = () => (
           </Grid>
         </SubCard>
       </Grid> */}
-    </Grid>
-  </MainCard>
-);
+        </Grid>
+      </MainCard>
+    );
+  }
+};
 
-export default UtilitiesShadow;
+export default SearchAPIComponent;

@@ -6,7 +6,7 @@ import Loadable from '../ui-component/Loadable';
 const DashboardDefault = Loadable(lazy(() => import('../views/dashboard/Default')));
 const AdsComponent = Loadable(lazy(() => import('../views/utilities/Ads_data')));
 const EmailComponent = Loadable(lazy(() => import('../views/utilities/Email')));
-const ShadowComponent = Loadable(lazy(() => import('../views/utilities/Shadow')));
+const SearchComponent = Loadable(lazy(() => import('../views/utilities/SearchConsole')));
 const SamplePage = Loadable(lazy(() => import('../views/sample-page')));
 
 const MainRoutes = {
@@ -40,7 +40,7 @@ const MainRoutes = {
       children: [
         {
           path: 'search_api',
-          element: <ShadowComponent />
+          element: <SearchComponent />
         }
       ]
     },

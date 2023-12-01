@@ -3,23 +3,14 @@ const ipAddress = '127.0.0.1:5000';
 const baseUrl = `http://${ipAddress}`;
 
 import { getEmailList, updateEmail, deleteEmail, deleteAllEmail } from './email';
-import {
-  loginFunction,
-  axiosConfig,
-  signupFunction,
-  resetPasswordFunction,
-  logoutFunction,
-  logoutFunctioncustom,
-  statusFunction
-} from './user';
-import useTokenStatus from './status';
+import { loginFunction, signupFunction, resetPasswordFunction, logoutFunction, logoutFunctioncustom, statusFunction } from './user';
 import { getAdCampaigns } from './Ads_data';
+import { getConsoleData } from './console_data';
 
 export {
   getEmailList,
   loginFunction,
   signupFunction,
-  axiosConfig,
   resetPasswordFunction,
   logoutFunction,
   statusFunction,
@@ -29,6 +20,6 @@ export {
   updateEmail,
   deleteEmail,
   deleteAllEmail,
-  useTokenStatus,
-  getAdCampaigns
+  getAdCampaigns,
+  getConsoleData
 };
