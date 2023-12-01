@@ -13,8 +13,7 @@ import MenuList from './MenuList';
 import LogoSection from '../LogoSection';
 // import MenuCard from './MenuCard';
 import { drawerWidth } from '../../../store/constant';
-
-// ==============================|| SIDEBAR DRAWER ||============================== //
+import LogoutCard from './MenuCard/Logout';
 
 const Sidebar = ({ drawerOpen, drawerToggle, window }) => {
   const theme = useTheme();
@@ -37,7 +36,7 @@ const Sidebar = ({ drawerOpen, drawerToggle, window }) => {
           }}
         >
           <MenuList />
-          {/* <MenuCard /> */}
+          <LogoutCard />
           {/* <Stack direction="row" justifyContent="center" sx={{ mb: 2 }}>
             <Chip label={process.env.REACT_APP_VERSION} disabled chipcolor="secondary" size="small" sx={{ cursor: 'pointer' }} />
           </Stack> */}
@@ -46,7 +45,7 @@ const Sidebar = ({ drawerOpen, drawerToggle, window }) => {
       <MobileView>
         <Box sx={{ px: 2 }}>
           <MenuList />
-          {/* <MenuCard /> */}
+          <LogoutCard />
           {/* <Stack direction="row" justifyContent="center" sx={{ mb: 2 }}>
             <Chip label={process.env.REACT_APP_VERSION} disabled chipcolor="secondary" size="small" sx={{ cursor: 'pointer' }} />
           </Stack> */}
