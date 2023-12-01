@@ -12,7 +12,7 @@ const useTokenStatus = () => {
     const checkTokenStatus = async () => {
       try {
         const response = await axios.get(`${baseUrl}/status`, axiosConfig);
-        console.log('response', response);
+        // console.log('response', response);
         if (response.status === 200) {
           const result = response.data;
           setTokenStatus(result.status);

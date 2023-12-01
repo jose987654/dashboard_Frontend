@@ -4,7 +4,7 @@ import Loadable from '../ui-component/Loadable';
 
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('../views/dashboard/Default')));
-const AdsComponent = Loadable(lazy(() => import('../views/utilities/Typography')));
+const AdsComponent = Loadable(lazy(() => import('../views/utilities/Ads_data')));
 const EmailComponent = Loadable(lazy(() => import('../views/utilities/Email')));
 const ShadowComponent = Loadable(lazy(() => import('../views/utilities/Shadow')));
 const SamplePage = Loadable(lazy(() => import('../views/sample-page')));
