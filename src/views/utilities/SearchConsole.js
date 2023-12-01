@@ -103,7 +103,7 @@ const SearchAPIComponent = () => {
       <MainCard title="Seach Console API">
         <Grid container spacing={gridSpacing}>
           <Grid item xs={12}>
-            <SubCard title="Site info">
+            <SubCard title="Site info from Search API ">
               <Grid container spacing={gridSpacing} style={{ minHeight: '530px' }}>
                 <Grid item xs={12} sm={6} md={6} lg={6}>
                   Site URL : {data?.first_site?.siteUrl}
