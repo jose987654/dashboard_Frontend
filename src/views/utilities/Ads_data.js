@@ -9,6 +9,34 @@ import MainCard from '../../ui-component/cards/MainCard';
 import { gridSpacing } from '../../store/constant';
 import { getAdCampaigns } from '../../services/Ads_data';
 import { SyncLoader } from 'react-spinners';
+import { styled } from '@mui/material/styles';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell, { tableCellClasses } from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 14
+  }
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  '&:nth-of-type(odd)': {
+    backgroundColor: theme.palette.action.hover
+  },
+  // hide last border
+  '&:last-child td, &:last-child th': {
+    border: 0
+  }
+}));
 
 const AdCampaigns = () => {
   const { tokenStatus, navigateToLogin } = useTokenStatus();
@@ -18,7 +46,7 @@ const AdCampaigns = () => {
     try {
       const data = await getAdCampaigns();
       console.log('data 1', data);
-      setData(data);
+      setData(data?.data);
       setLoading(false);
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -52,113 +80,36 @@ const AdCampaigns = () => {
     );
   } else {
     return (
-      <MainCard title="Ads. Campaign API">
+      <MainCard title=" Google Ads. Campaign API">
         <Grid container spacing={gridSpacing}>
-          {/* <Grid item xs={12} sm={6}>
-        <SubCard title="Heading">
-          <Grid container direction="column" spacing={1}>
-            <Grid item>
-              <MuiTypography variant="h1" gutterBottom>
-                h1. Heading
-              </MuiTypography>
-            </Grid>
-            <Grid item>
-              <MuiTypography variant="h2" gutterBottom>
-                h2. Heading
-              </MuiTypography>
-            </Grid>
-            <Grid item>
-              <MuiTypography variant="h3" gutterBottom>
-                h3. Heading
-              </MuiTypography>
-            </Grid>
-            <Grid item>
-              <MuiTypography variant="h4" gutterBottom>
-                h4. Heading
-              </MuiTypography>
-            </Grid>
-            <Grid item>
-              <MuiTypography variant="h5" gutterBottom>
-                h5. Heading
-              </MuiTypography>
-            </Grid>
-            <Grid item>
-              <MuiTypography variant="h6" gutterBottom>
-                h6. Heading
-              </MuiTypography>
-            </Grid>
+          <Grid item xs={12}>
+            <SubCard title={`Campaigns currently running  ${data?.campaigns?.length}`}>
+              <Grid container spacing={gridSpacing} style={{ minHeight: '530px' }}>
+                <Grid item xs={12} sm={12} md={12} lg={12}>
+                  <TableContainer component={Paper}>
+                    <Table sx={{ minWidth: 700 }} aria-label="customized table">
+                      <TableHead>
+                        <TableRow>
+                          <StyledTableCell align="center">No.</StyledTableCell>
+                          <StyledTableCell align="center">Id </StyledTableCell>
+                          <StyledTableCell align="center">Name</StyledTableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {data?.campaigns?.map((item, index) => (
+                          <StyledTableRow key={index}>
+                            <StyledTableCell align="center">{index + 1}</StyledTableCell>
+                            <StyledTableCell align="center">{item?.id}</StyledTableCell>
+                            <StyledTableCell align="center">{item?.name}</StyledTableCell>
+                          </StyledTableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                </Grid>
+              </Grid>
+            </SubCard>
           </Grid>
-        </SubCard>
-      </Grid>
-      <Grid item xs={12} sm={6}>
-        <SubCard title="Sub title">
-          <Grid container direction="column" spacing={1}>
-            <Grid item>
-              <MuiTypography variant="subtitle1" gutterBottom>
-                subtitle1. Lorem ipsum dolor sit connecter adieu siccing eliot. Quos blanditiis tenetur
-              </MuiTypography>
-            </Grid>
-            <Grid item>
-              <MuiTypography variant="subtitle2" gutterBottom>
-                subtitle2. Lorem ipsum dolor sit connecter adieu siccing eliot. Quos blanditiis tenetur
-              </MuiTypography>
-            </Grid>
-          </Grid>
-        </SubCard>
-      </Grid>
-      <Grid item xs={12} sm={6}>
-        <SubCard title="Body">
-          <Grid container direction="column" spacing={1}>
-            <Grid item>
-              <MuiTypography variant="body1" gutterBottom>
-                body1. Lorem ipsum dolor sit connecter adieu siccing eliot. Quos blanditiis tenetur unde suscipit, quam beatae rerum
-                inventore consectetur, neque doloribus, cupiditate numquam dignissimos laborum fugiat deleniti? Eum quasi quidem quibusdam.
-              </MuiTypography>
-            </Grid>
-            <Grid item>
-              <MuiTypography variant="body2" gutterBottom>
-                body2. Lorem ipsum dolor sit connecter adieu siccing eliot. Quos blanditiis tenetur unde suscipit, quam beatae rerum
-                inventore consectetur, neque doloribus, cupiditate numquam dignissimos laborum fugiat deleniti? Eum quasi quidem quibusdam.
-              </MuiTypography>
-            </Grid>
-          </Grid>
-        </SubCard>
-      </Grid>
-      <Grid item xs={12} sm={6}>
-        <SubCard title="Extra"> getAdCampaigns
-          <Grid container direction="column" spacing={1}>
-            <Grid item>
-              <MuiTypography variant="button" display="block" gutterBottom>
-                button text
-              </MuiTypography>
-            </Grid>
-            <Grid item>
-              <MuiTypography variant="caption" display="block" gutterBottom>
-                caption text
-              </MuiTypography>
-            </Grid>
-            <Grid item>
-              <MuiTypography variant="overline" display="block" gutterBottom>
-                overline text
-              </MuiTypography>
-            </Grid>
-            <Grid item>
-              <MuiTypography
-                variant="body2"
-                color="primary"
-                component={Link}
-                href="https://berrydashboard.io"
-                target="_blank"
-                display="block"
-                underline="hover"
-                gutterBottom
-              >
-                https://berrydashboard.io
-              </MuiTypography>
-            </Grid>
-          </Grid>
-        </SubCard>
-      </Grid> */}
         </Grid>
       </MainCard>
     );

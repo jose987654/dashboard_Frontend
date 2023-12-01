@@ -100,7 +100,7 @@ const SearchAPIComponent = () => {
     );
   } else {
     return (
-      <MainCard title="Seach Console API">
+      <MainCard title="Google Seach Console API">
         <Grid container spacing={gridSpacing}>
           <Grid item xs={12}>
             <SubCard title="Site info from Search API ">
@@ -126,9 +126,7 @@ const SearchAPIComponent = () => {
                         {reversedRows.map((day, index) => (
                           <StyledTableRow key={index}>
                             <StyledTableCell align="center">{index + 1}</StyledTableCell>
-                            <StyledTableCell align="center">
-                              {day?.keys?.[0]}
-                            </StyledTableCell>
+                            <StyledTableCell align="center">{day?.keys?.[0]}</StyledTableCell>
                             <StyledTableCell align="center">{day?.clicks}</StyledTableCell>
                             <StyledTableCell align="center">{day?.impressions}</StyledTableCell>
                             <StyledTableCell align="center">{day?.ctr}</StyledTableCell>
