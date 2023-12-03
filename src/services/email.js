@@ -21,6 +21,26 @@ export async function updateEmail(payload) {
   return data;
 }
 
+// function to update all email data
+export async function addEmailList(payload) {
+  const data = await axios.post(`${baseUrl}/add_Email_status?_format=json`, payload, axiosConfig).then(function (response) {
+    const response_data = response;
+    console.log(response_data);
+    return response_data;
+  });
+  return data;
+}
+
+// function to update all email data
+export async function delEmailList(payload) {
+  const data = await axios.post(`${baseUrl}/del_Email_status?_format=json`, payload, axiosConfig).then(function (response) {
+    const response_data = response;
+    console.log(response_data);
+    return response_data;
+  });
+  return data;
+}
+
 // function to delete single email data
 export async function deleteEmail(payload) {
   const data = await axios.post(`${baseUrl}/delete_email?_format=json`, payload, axiosConfig).then(function (response) {

@@ -87,7 +87,7 @@ const LogoutCard = () => {
             </Avatar>
           </ListItemAvatar>
           <ListItemText
-            sx={{ mt: 0 }}
+            sx={{ mt: 0, cursor: 'pointer' }}
             primary={
               <Typography variant="subtitle1" sx={{ color: theme.palette.primary[800] }}>
                 Logout
