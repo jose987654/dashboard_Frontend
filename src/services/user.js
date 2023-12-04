@@ -2,6 +2,8 @@ import axios from 'axios';
 import { baseUrl } from '.';
 // import React, { useEffect } from 'react';
 import { toast } from 'react-toastify';
+import { Navigate } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 export const token = localStorage.getItem('access_token');
 export const refresh_token = localStorage.getItem('refresh_token');
@@ -13,6 +15,16 @@ export let axiosConfig = {
   headers: {
     'Content-Type': 'application/json;charset=UTF-8',
     Authorization: token
+  }
+};
+
+//private routes function
+export const PrivateRoutes = ({ children }) => {
+  const isAuthenticated = !!token;
+  if (isAuthenticated) {
+    return <>{children}</>;
+  } else {
+    return <Navigate to="/login" />;
   }
 };
 
@@ -151,3 +163,7 @@ export async function statusFunction() {
       //   window.location.replace('/login');
     });
 }
+
+PrivateRoutes.propTypes = {
+  children: PropTypes.node.isRequired
+};

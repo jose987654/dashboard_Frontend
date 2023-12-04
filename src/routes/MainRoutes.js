@@ -1,7 +1,7 @@
 import { lazy } from 'react';
 import MainLayout from '../layout/MainLayout/index.js';
 import Loadable from '../ui-component/Loadable';
-
+import { PrivateRoutes } from '../services/user.js';
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('../views/dashboard/Default')));
 const AdsComponent = Loadable(lazy(() => import('../views/utilities/Ads_data')));
@@ -15,14 +15,22 @@ const MainRoutes = {
   children: [
     {
       path: '/',
-      element: <DashboardDefault />
+      element: (
+        <PrivateRoutes>
+          <DashboardDefault />
+        </PrivateRoutes>
+      )
     },
     {
       path: 'dashboard',
       children: [
         {
           path: 'default',
-          element: <DashboardDefault />
+          element: (
+            <PrivateRoutes>
+              <DashboardDefault />
+            </PrivateRoutes>
+          )
         }
       ]
     },
@@ -31,7 +39,11 @@ const MainRoutes = {
       children: [
         {
           path: 'ads_api',
-          element: <AdsComponent />
+          element: (
+            <PrivateRoutes>
+              <AdsComponent />
+            </PrivateRoutes>
+          )
         }
       ]
     },
@@ -40,7 +52,11 @@ const MainRoutes = {
       children: [
         {
           path: 'search_api',
-          element: <SearchComponent />
+          element: (
+            <PrivateRoutes>
+              <SearchComponent />
+            </PrivateRoutes>
+          )
         }
       ]
     },
@@ -49,14 +65,22 @@ const MainRoutes = {
       children: [
         {
           path: 'email',
-          element: <EmailComponent />
+          element: (
+            <PrivateRoutes>
+              <EmailComponent />
+            </PrivateRoutes>
+          )
         }
       ]
     },
 
     {
       path: 'sample-page',
-      element: <SamplePage />
+      element: (
+        <PrivateRoutes>
+          <SamplePage />
+        </PrivateRoutes>
+      )
     }
   ]
 };
