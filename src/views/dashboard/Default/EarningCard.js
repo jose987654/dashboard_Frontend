@@ -49,7 +49,7 @@ const CardWrapper = styled(MainCard)(({ theme }) => ({
   }
 }));
 
-const EarningCard = ({ isLoading }) => {
+const EarningCard = ({ isLoading, clickData }) => {
   const theme = useTheme();
 
   const [anchorEl, setAnchorEl] = useState(null);
@@ -136,7 +136,7 @@ const EarningCard = ({ isLoading }) => {
               <Grid item>
                 <Grid container alignItems="center">
                   <Grid item>
-                    <Typography sx={{ fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75 }}>54,223</Typography>
+                    <Typography sx={{ fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75 }}>{clickData}</Typography>
                   </Grid>
                   <Grid item>
                     <Typography sx={{ fontSize: '1.125rem', fontWeight: 300, mr: 1, mt: 1.75, mb: 0.75 }}>clicks</Typography>
@@ -177,7 +177,8 @@ const EarningCard = ({ isLoading }) => {
 };
 
 EarningCard.propTypes = {
-  isLoading: PropTypes.bool
+  isLoading: PropTypes.bool,
+  clickData: PropTypes.number
 };
 
 export default EarningCard;

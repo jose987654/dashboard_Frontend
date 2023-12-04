@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Grid } from '@mui/material';
 import EarningCard from './EarningCard';
 import PopularCard from './PopularCard';
@@ -8,14 +8,13 @@ import TotalIncomeLightCard from './TotalIncomeLightCard';
 import TotalGrowthBarChart from './TotalGrowthBarChart';
 import { gridSpacing } from '../../../store/constant';
 import useTokenStatus from '../../../services/status';
-// ==============================|| DEFAULT DASHBOARD ||============================== //
+import { useDataContext } from '../../../store/dataContext';
 
 const Dashboard = () => {
   const { tokenStatus, navigateToLogin } = useTokenStatus();
-  const [isLoading, setLoading] = useState(true);
-  useEffect(() => {
-    setLoading(false);
-  }, []);
+  // const [isLoading, setLoading] = useState(true);
+  const { adData, clickData, loading } = useDataContext();
+
   useEffect(() => {
     if (tokenStatus === 0) {
       navigateToLogin();
@@ -27,18 +26,18 @@ const Dashboard = () => {
       <Grid item xs={12}>
         <Grid container spacing={gridSpacing}>
           <Grid item lg={4} md={6} sm={6} xs={12}>
-            <EarningCard isLoading={isLoading} />
+            <EarningCard isLoading={loading} clickData={clickData} />
           </Grid>
           <Grid item lg={4} md={6} sm={6} xs={12}>
-            <TotalOrderLineChartCard isLoading={isLoading} />
+            <TotalOrderLineChartCard isLoading={loading} adData={adData} />
           </Grid>
           <Grid item lg={4} md={12} sm={12} xs={12}>
             <Grid container spacing={gridSpacing}>
               <Grid item sm={6} xs={12} md={6} lg={12}>
-                <TotalIncomeDarkCard isLoading={isLoading} />
+                <TotalIncomeDarkCard isLoading={loading} />
               </Grid>
               <Grid item sm={6} xs={12} md={6} lg={12}>
-                <TotalIncomeLightCard isLoading={isLoading} />
+                <TotalIncomeLightCard isLoading={loading} />
               </Grid>
             </Grid>
           </Grid>
@@ -47,10 +46,10 @@ const Dashboard = () => {
       <Grid item xs={12}>
         <Grid container spacing={gridSpacing}>
           <Grid item xs={12} md={8}>
-            <TotalGrowthBarChart isLoading={isLoading} />
+            <TotalGrowthBarChart isLoading={loading} />
           </Grid>
           <Grid item xs={12} md={4}>
-            <PopularCard isLoading={isLoading} />
+            <PopularCard isLoading={loading} />
           </Grid>
         </Grid>
       </Grid>

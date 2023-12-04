@@ -65,7 +65,7 @@ const CardWrapper = styled(MainCard)(({ theme }) => ({
 
 // ==============================|| DASHBOARD - TOTAL ORDER LINE CHART CARD ||============================== //
 
-const TotalOrderLineChartCard = ({ isLoading }) => {
+const TotalOrderLineChartCard = ({ isLoading, adData }) => {
   const theme = useTheme();
 
   const [timeValue, setTimeValue] = useState(false);
@@ -126,11 +126,11 @@ const TotalOrderLineChartCard = ({ isLoading }) => {
                   <Grid item>
                     {timeValue ? (
                       <>
-                        <Typography sx={{ fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75 }}>4.0</Typography>
+                        <Typography sx={{ fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75 }}>{adData}</Typography>
                       </>
                     ) : (
                       <>
-                        <Typography sx={{ fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75 }}>5.0</Typography>
+                        <Typography sx={{ fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75 }}>{adData}</Typography>
                       </>
                     )}
                   </Grid>
@@ -178,7 +178,8 @@ const TotalOrderLineChartCard = ({ isLoading }) => {
 };
 
 TotalOrderLineChartCard.propTypes = {
-  isLoading: PropTypes.bool
+  isLoading: PropTypes.bool,
+  adData: PropTypes.number
 };
 
 export default TotalOrderLineChartCard;
