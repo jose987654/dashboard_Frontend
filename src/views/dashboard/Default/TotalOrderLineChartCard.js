@@ -126,11 +126,15 @@ const TotalOrderLineChartCard = ({ isLoading, adData }) => {
                   <Grid item>
                     {timeValue ? (
                       <>
-                        <Typography sx={{ fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75 }}>{adData}</Typography>
+                        <Typography sx={{ fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75 }}>
+                          {adData.toFixed(1)}
+                        </Typography>
                       </>
                     ) : (
                       <>
-                        <Typography sx={{ fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75 }}>{adData}</Typography>
+                        <Typography sx={{ fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75 }}>
+                          {adData.toFixed(1)}
+                        </Typography>
                       </>
                     )}
                   </Grid>

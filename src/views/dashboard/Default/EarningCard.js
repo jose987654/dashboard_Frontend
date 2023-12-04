@@ -136,7 +136,9 @@ const EarningCard = ({ isLoading, clickData }) => {
               <Grid item>
                 <Grid container alignItems="center">
                   <Grid item>
-                    <Typography sx={{ fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75 }}>{clickData}</Typography>
+                    <Typography sx={{ fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75 }}>
+                      {clickData.toLocaleString(undefined, { maximumFractionDigits: 0 })}
+                    </Typography>
                   </Grid>
                   <Grid item>
                     <Typography sx={{ fontSize: '1.125rem', fontWeight: 300, mr: 1, mt: 1.75, mb: 0.75 }}>clicks</Typography>
