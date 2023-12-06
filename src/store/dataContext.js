@@ -38,15 +38,13 @@ export const DataProvider = ({ children }) => {
 
         const currentDate = new Date();
         const currentMonth = currentDate.getMonth() + 1; // Months are zero-indexed, so add 1
-        
-        const monthNames = [
-          "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-        ];
-        
+
+        const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
         const monthlySumData = rows.reduce((acc, row) => {
           const monthKey = row.keys[0].substring(0, 7); // Extract YYYY-MM format
           const date = new Date(monthKey);
-        
+
           if (date >= new Date(currentDate.getFullYear() - 1, currentMonth - 1, 1)) {
             if (!acc[monthKey]) {
               acc[monthKey] = {
@@ -58,23 +56,22 @@ export const DataProvider = ({ children }) => {
                 monthName: monthNames[date.getMonth()] // Add month name
               };
             }
-        
+
             acc[monthKey].clicks += row.clicks;
             acc[monthKey].impressions += row.impressions;
             acc[monthKey].ctr += row.ctr;
           }
-        
+
           return acc;
         }, {});
-        
-        console.log("monthly ", Object.values(monthlySumData));
+
+        console.log('monthly ', Object.values(monthlySumData));
         setMonthlySum(Object.values(monthlySumData));
-        
       }
 
       setLoading(false);
     } catch (error) {
-      console.error('Error fetching data:', error);
+      console.error(error);
       setClickData(0);
       setData([]);
       setads([]);
