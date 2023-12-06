@@ -50,6 +50,7 @@ const AdCampaigns = () => {
       setLoading(false);
     } catch (error) {
       console.error('Error fetching data:', error);
+      setData([]);
       setLoading(false);
     }
   };
