@@ -32,7 +32,7 @@ const useTokenStatus = () => {
     checkTokenStatus();
 
     // Set up an interval to call the function every 1 minute
-    const intervalId = setInterval(checkTokenStatus, 60000);
+    const intervalId = setInterval(checkTokenStatus, 600000);
 
     // Clean up the interval on component unmount
     return () => clearInterval(intervalId);
