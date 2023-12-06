@@ -10,9 +10,7 @@ export const DataProvider = ({ children }) => {
   const [clickData, setClickData] = useState([]);
   const [ads, setads] = useState([]);
   const [loading, setLoading] = useState(true);
-
-  // const getConsoleData = () => Promise.reject(new Error('Mocked error'));
-  // const getAdCampaigns = () => Promise.reject(new Error('Mocked error'));
+  const [monthlySum, setMonthlySum] = useState([]);
 
   const fetchData = async () => {
     try {
@@ -37,6 +35,41 @@ export const DataProvider = ({ children }) => {
         console.log('Sum of clicks:', sum.clicks);
         console.log('Sum of impressions:', sum.impressions);
         console.log('Sum of ctr:', sum.ctr);
+
+        const currentDate = new Date();
+        const currentMonth = currentDate.getMonth() + 1; // Months are zero-indexed, so add 1
+        
+        const monthNames = [
+          "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+        ];
+        
+        const monthlySumData = rows.reduce((acc, row) => {
+          const monthKey = row.keys[0].substring(0, 7); // Extract YYYY-MM format
+          const date = new Date(monthKey);
+        
+          if (date >= new Date(currentDate.getFullYear() - 1, currentMonth - 1, 1)) {
+            if (!acc[monthKey]) {
+              acc[monthKey] = {
+                clicks: 0,
+                impressions: 0,
+                ctr: 0,
+                year: date.getFullYear(),
+                month: date.getMonth() + 1,
+                monthName: monthNames[date.getMonth()] // Add month name
+              };
+            }
+        
+            acc[monthKey].clicks += row.clicks;
+            acc[monthKey].impressions += row.impressions;
+            acc[monthKey].ctr += row.ctr;
+          }
+        
+          return acc;
+        }, {});
+        
+        console.log("monthly ", Object.values(monthlySumData));
+        setMonthlySum(Object.values(monthlySumData));
+        
       }
 
       setLoading(false);
@@ -59,7 +92,8 @@ export const DataProvider = ({ children }) => {
     adData,
     clickData,
     ads,
-    loading
+    loading,
+    monthlySum
   };
 
   return <DataContext.Provider value={contextValue}>{children}</DataContext.Provider>;
