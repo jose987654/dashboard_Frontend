@@ -11,6 +11,9 @@ export const DataProvider = ({ children }) => {
   const [ads, setads] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  // const getConsoleData = () => Promise.reject(new Error('Mocked error'));
+  // const getAdCampaigns = () => Promise.reject(new Error('Mocked error'));
+
   const fetchData = async () => {
     try {
       const [consoleData, adData] = await Promise.all([getConsoleData(), getAdCampaigns()]);
@@ -39,6 +42,10 @@ export const DataProvider = ({ children }) => {
       setLoading(false);
     } catch (error) {
       console.error('Error fetching data:', error);
+      setClickData(0);
+      setData([]);
+      setads([]);
+      setAdData(0);
       setLoading(false);
     }
   };
