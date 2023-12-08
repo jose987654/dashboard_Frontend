@@ -17,6 +17,8 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import TablePagination from '@mui/material/TablePagination';
+import { tablePaginationClasses as classes } from '@mui/material/TablePagination';
 
 const ShadowBox = ({ shadow }) => (
   <Card sx={{ mb: 3, boxShadow: shadow }}>
@@ -58,12 +60,60 @@ ShadowBox.propTypes = {
   shadow: PropTypes.string.isRequired
 };
 
+const CustomTablePagination = styled(TablePagination)`
+  & .${classes.toolbar} {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+
+    @media (min-width: 768px) {
+      flex-direction: row;
+      align-items: center;
+    }
+  }
+
+  & .${classes.selectLabel} {
+    margin: 0;
+  }
+
+  & .${classes.displayedRows} {
+    margin: 0;
+
+    @media (min-width: 768px) {
+      margin-left: auto;
+    }
+  }
+
+  & .${classes.spacer} {
+    display: none;
+  }
+
+  & .${classes.actions} {
+    display: flex;
+    gap: 0.25rem;
+  }
+`;
+
 const SearchAPIComponent = () => {
   const { tokenStatus, navigateToLogin } = useTokenStatus();
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const reversedRows = data?.search_analytics_data?.rows.slice().reverse() || {};
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(15);
 
+  // Avoid a layout jump when reaching the last page with empty rows.
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - reversedRows.length) : 0;
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
   const fetchData = async () => {
     try {
       const data = await getConsoleData();
@@ -126,16 +176,17 @@ const SearchAPIComponent = () => {
                         </TableRow>
                       </TableHead>
                       <TableBody>
-                        {reversedRows.map((day, index) => (
-                          <StyledTableRow key={index}>
-                            <StyledTableCell align="center">{index + 1}</StyledTableCell>
-                            <StyledTableCell align="center">{day?.keys?.[0]}</StyledTableCell>
-                            <StyledTableCell align="center">{day?.clicks}</StyledTableCell>
-                            <StyledTableCell align="center">{day?.impressions}</StyledTableCell>
-                            <StyledTableCell align="center">{day?.ctr}</StyledTableCell>
-                            {/* <StyledTableCell align="center">Update</StyledTableCell> */}
-                            {/* <StyledTableCell align="center">Remove</StyledTableCell> */}
-                            {/* <StyledTableCell align="center">
+                        {(rowsPerPage > 0 ? reversedRows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : reversedRows).map(
+                          (day, index) => (
+                            <StyledTableRow key={index}>
+                              <StyledTableCell align="center">{index + 1}</StyledTableCell>
+                              <StyledTableCell align="center">{day?.keys?.[0]}</StyledTableCell>
+                              <StyledTableCell align="center">{day?.clicks}</StyledTableCell>
+                              <StyledTableCell align="center">{day?.impressions}</StyledTableCell>
+                              <StyledTableCell align="center">{day?.ctr}</StyledTableCell>
+                              {/* <StyledTableCell align="center">Update</StyledTableCell> */}
+                              {/* <StyledTableCell align="center">Remove</StyledTableCell> */}
+                              {/* <StyledTableCell align="center">
                               <Button
                                 variant="contained"
                                 style={{ backgroundColor: '#8B0000', color: 'white' }}
@@ -144,9 +195,37 @@ const SearchAPIComponent = () => {
                                 Remove user
                               </Button>
                             </StyledTableCell> */}
+                            </StyledTableRow>
+                          )
+                        )}
+                        {emptyRows > 0 && (
+                          <StyledTableRow style={{ height: 41 * emptyRows }}>
+                            <StyledTableCell colSpan={5} aria-hidden />
                           </StyledTableRow>
-                        ))}
+                        )}
                       </TableBody>
+                      <tfoot>
+                        <tr>
+                          <CustomTablePagination
+                            rowsPerPageOptions={[15, 20, 25, { label: 'All', value: -1 }]}
+                            colSpan={3}
+                            count={reversedRows.length}
+                            rowsPerPage={rowsPerPage}
+                            page={page}
+                            slotProps={{
+                              select: {
+                                'aria-label': 'rows per page'
+                              },
+                              actions: {
+                                showFirstButton: true,
+                                showLastButton: true
+                              }
+                            }}
+                            onPageChange={handleChangePage}
+                            onRowsPerPageChange={handleChangeRowsPerPage}
+                          />
+                        </tr>
+                      </tfoot>
                     </Table>
                   </TableContainer>
                 </Grid>

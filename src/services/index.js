@@ -1,4 +1,6 @@
 // backend address 23.88.55.176:5000 127.0.0.1:5000
+
+// const ipAddress = '127.0.0.1:5000';
 const ipAddress = '23.88.55.176:5000';
 const baseUrl = `http://${ipAddress}`;
 
