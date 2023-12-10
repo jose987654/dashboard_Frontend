@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Grid } from '@mui/material';
-// import { Grid, Link } from '@mui/material';
+// import { Grid, Link } from '@mui/material'; useState,
 // import MuiTypography from '@mui/material/Typography';
 import SubCard from '../../ui-component/cards/SubCard';
 import useTokenStatus from '../../services/status';
 import MainCard from '../../ui-component/cards/MainCard';
 // import SecondaryAction from '../../ui-component/cards/CardSecondaryAction';
 import { gridSpacing } from '../../store/constant';
-import { getAdCampaigns } from '../../services/Ads_data';
+// import { getAdCampaigns } from '../../services/Ads_data';
 import { SyncLoader } from 'react-spinners';
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
@@ -17,7 +17,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-
+import { useDataContext } from '../../store/dataContext';
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
@@ -40,24 +40,26 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 const AdCampaigns = () => {
   const { tokenStatus, navigateToLogin } = useTokenStatus();
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const fetchData = async () => {
-    try {
-      const data = await getAdCampaigns();
-      console.log('data 1', data);
-      setData(data?.data);
-      setLoading(false);
-    } catch (error) {
-      console.error('Error fetching data:', error);
-      setData([]);
-      setLoading(false);
-    }
-  };
-  console.log('data to be rendered here', data);
-  useEffect(() => {
-    fetchData();
-  }, []);
+  // const [data, setData] = useState([]);
+  // const [loading, setLoading] = useState(true);
+  const { ads, loading } = useDataContext();
+
+  // const fetchData = async () => {
+  //   try {
+  //     const data = await getAdCampaigns();
+  //     console.log('data 1', data);
+  //     setData(data?.data);
+  //     setLoading(false);
+  //   } catch (error) {
+  //     console.error('Error fetching data:', error);
+  //     setData([]);
+  //     setLoading(false);
+  //   }
+  // };
+  console.log('data to be rendered here', ads);
+  // useEffect(() => {
+  //   fetchData();
+  // }, []);
   useEffect(() => {
     if (tokenStatus === 0) {
       navigateToLogin();
@@ -84,7 +86,7 @@ const AdCampaigns = () => {
       <MainCard title=" Google Ads. Campaign API">
         <Grid container spacing={gridSpacing}>
           <Grid item xs={12}>
-            <SubCard title={`Campaigns currently running  ${data?.campaigns?.length}`}>
+            <SubCard title={`Campaigns currently running  ${ads?.campaigns?.length}`}>
               <Grid container spacing={gridSpacing} style={{ minHeight: '530px' }}>
                 <Grid item xs={12} sm={12} md={12} lg={12}>
                   <TableContainer component={Paper}>
@@ -97,7 +99,7 @@ const AdCampaigns = () => {
                         </TableRow>
                       </TableHead>
                       <TableBody>
-                        {data?.campaigns?.map((item, index) => (
+                        {ads?.campaigns?.map((item, index) => (
                           <StyledTableRow key={index}>
                             <StyledTableCell align="center">{index + 1}</StyledTableCell>
                             <StyledTableCell align="center">{item?.id}</StyledTableCell>
