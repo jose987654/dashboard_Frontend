@@ -102,17 +102,18 @@ const TotalGrowthBarChart = ({ isLoading }) => {
     },
     series: [
       {
-        name: 'Clicks',
-        data: monthlySum.map((month) => month.clicks)
-      },
-      {
         name: 'Impressions',
         data: monthlySum.map((month) => month.impressions)
       },
       {
-        name: 'Ctr',
-        data: monthlySum.map((month) => month.ctr)
+        name: 'Clicks',
+        data: monthlySum.map((month) => month.clicks)
       }
+      // ,
+      // {
+      //   name: 'Ctr',
+      //   data: monthlySum.map((month) => month.ctr)
+      // }
     ]
   };
 

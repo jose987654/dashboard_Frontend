@@ -181,8 +181,12 @@ const SearchAPIComponent = () => {
                             <StyledTableRow key={index}>
                               <StyledTableCell align="center">{index + 1}</StyledTableCell>
                               <StyledTableCell align="center">{day?.keys?.[0]}</StyledTableCell>
-                              <StyledTableCell align="center">{day?.clicks}</StyledTableCell>
-                              <StyledTableCell align="center">{day?.impressions}</StyledTableCell>
+                              <StyledTableCell align="center">
+                                {day.clicks.toLocaleString(undefined, { maximumFractionDigits: 0 })}
+                              </StyledTableCell>
+                              <StyledTableCell align="center">
+                                {day.impressions.toLocaleString(undefined, { maximumFractionDigits: 0 })}
+                              </StyledTableCell>
                               <StyledTableCell align="center">{day?.ctr}</StyledTableCell>
                               {/* <StyledTableCell align="center">Update</StyledTableCell> */}
                               {/* <StyledTableCell align="center">Remove</StyledTableCell> */}
