@@ -13,7 +13,7 @@ import { useDataContext } from '../../../store/dataContext';
 const Dashboard = () => {
   const { tokenStatus, navigateToLogin } = useTokenStatus();
   // const [isLoading, setLoading] = useState(true);
-  const { adData, clickData, loading } = useDataContext();
+  const { adData, clickData, loading, CountryClicks } = useDataContext();
 
   useEffect(() => {
     if (tokenStatus === 0) {
@@ -49,7 +49,7 @@ const Dashboard = () => {
             <TotalGrowthBarChart isLoading={loading} />
           </Grid>
           <Grid item xs={12} md={4}>
-            <PopularCard isLoading={loading} />
+            <PopularCard isLoading={loading} CountryClicks={CountryClicks} />
           </Grid>
         </Grid>
       </Grid>

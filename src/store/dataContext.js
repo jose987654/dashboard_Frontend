@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { getConsoleData, getAdCampaigns } from '../services';
+
 const DataContext = createContext();
 
 // Create a provider component to wrap your app and provide the context value
@@ -8,6 +9,7 @@ export const DataProvider = ({ children }) => {
   const [data, setData] = useState([]);
   const [adData, setAdData] = useState([]);
   const [clickData, setClickData] = useState([]);
+  const [CountryClicks, setSortedCountryClicks] = useState([]);
   const [ads, setads] = useState([]);
   const [loading, setLoading] = useState(true);
   const [monthlySum, setMonthlySum] = useState([]);
@@ -68,6 +70,33 @@ export const DataProvider = ({ children }) => {
         console.log('monthly ', Object.values(monthlySumData));
         setMonthlySum(Object.values(monthlySumData));
       }
+      const popularCountriesData = res.popular_countries_data;
+      const countryClicksMap = {};
+
+      if (popularCountriesData && popularCountriesData.rows) {
+        popularCountriesData.rows.forEach((row) => {
+          const countryCode = row.keys[0];
+          const clicks = row.clicks;
+
+          if (countryCode && clicks) {
+            if (!countryClicksMap[countryCode]) {
+              countryClicksMap[countryCode] = 0;
+            }
+
+            countryClicksMap[countryCode] += clicks;
+          }
+        });
+
+        const countryClicksArray = Object.entries(countryClicksMap).map(([countryCode, clicks]) => ({
+          countryCode,
+          clicks
+        }));
+
+        const sortedCountryClicks = countryClicksArray.sort((a, b) => b.clicks - a.clicks);
+        const top10CountryClicks = sortedCountryClicks.slice(0, 10);
+        console.log('Sorted Country Clicks:', top10CountryClicks);
+        setSortedCountryClicks(top10CountryClicks);
+      }
 
       setLoading(false);
     } catch (error) {
@@ -90,7 +119,8 @@ export const DataProvider = ({ children }) => {
     clickData,
     ads,
     loading,
-    monthlySum
+    monthlySum,
+    CountryClicks
   };
 
   return <DataContext.Provider value={contextValue}>{children}</DataContext.Provider>;
