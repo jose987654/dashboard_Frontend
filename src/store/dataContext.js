@@ -24,57 +24,72 @@ export const DataProvider = ({ children }) => {
       setAdData(res_2);
       if (res && res.search_analytics_data && res.search_analytics_data.rows) {
         const { rows } = res.search_analytics_data;
-        const sum = rows.reduce(
-          (acc, row) => {
-            acc.clicks += row.clicks;
-            acc.impressions += row.impressions;
-            acc.ctr += row.ctr;
-            return acc;
-          },
-          { clicks: 0, impressions: 0, ctr: 0 }
-        );
+
+        // Parallelize these operations
+        const [sum, monthlySumData] = await Promise.all([
+          // Calculate sum asynchronously
+          new Promise((resolve) => {
+            const sum = rows.reduce(
+              (acc, row) => {
+                acc.clicks += row.clicks;
+                acc.impressions += row.impressions;
+                acc.ctr += row.ctr;
+                return acc;
+              },
+              { clicks: 0, impressions: 0, ctr: 0 }
+            );
+            resolve(sum);
+          }),
+
+          // Calculate monthlySumData asynchronously
+          new Promise((resolve) => {
+            const currentDate = new Date();
+            const currentMonth = currentDate.getMonth() + 1;
+            const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+            const monthlySumData = rows.reduce((acc, row) => {
+              const monthKey = row.keys[0].substring(0, 7);
+              const date = new Date(monthKey);
+
+              if (date >= new Date(currentDate.getFullYear() - 1, currentMonth - 1, 1)) {
+                if (!acc[monthKey]) {
+                  acc[monthKey] = {
+                    clicks: 0,
+                    impressions: 0,
+                    ctr: 0,
+                    year: date.getFullYear(),
+                    month: date.getMonth() + 1,
+                    monthName: monthNames[date.getMonth()]
+                  };
+                }
+
+                acc[monthKey].clicks += row.clicks;
+                acc[monthKey].impressions += row.impressions;
+                acc[monthKey].ctr += row.ctr;
+              }
+
+              return acc;
+            }, {});
+
+            resolve(Object.values(monthlySumData));
+          })
+        ]);
+
         setClickData(sum.clicks);
         console.log('Sum of clicks:', sum.clicks);
         console.log('Sum of impressions:', sum.impressions);
         console.log('Sum of ctr:', sum.ctr);
 
-        const currentDate = new Date();
-        const currentMonth = currentDate.getMonth() + 1; // Months are zero-indexed, so add 1
-
-        const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-
-        const monthlySumData = rows.reduce((acc, row) => {
-          const monthKey = row.keys[0].substring(0, 7); // Extract YYYY-MM format
-          const date = new Date(monthKey);
-
-          if (date >= new Date(currentDate.getFullYear() - 1, currentMonth - 1, 1)) {
-            if (!acc[monthKey]) {
-              acc[monthKey] = {
-                clicks: 0,
-                impressions: 0,
-                ctr: 0,
-                year: date.getFullYear(),
-                month: date.getMonth() + 1,
-                monthName: monthNames[date.getMonth()] // Add month name
-              };
-            }
-
-            acc[monthKey].clicks += row.clicks;
-            acc[monthKey].impressions += row.impressions;
-            acc[monthKey].ctr += row.ctr;
-          }
-
-          return acc;
-        }, {});
-
-        console.log('monthly ', Object.values(monthlySumData));
-        setMonthlySum(Object.values(monthlySumData));
+        console.log('monthly ', monthlySumData);
+        setMonthlySum(monthlySumData);
       }
+
       const popularCountriesData = res.popular_countries_data;
       const countryClicksMap = {};
 
       if (popularCountriesData && popularCountriesData.rows) {
-        popularCountriesData.rows.forEach((row) => {
+        // Map each row to a promise that resolves to an object with countryCode and clicks
+        const promises = popularCountriesData.rows.map(async (row) => {
           const countryCode = row.keys[0];
           const clicks = row.clicks;
 
@@ -85,14 +100,17 @@ export const DataProvider = ({ children }) => {
 
             countryClicksMap[countryCode] += clicks;
           }
+
+          return { countryCode, clicks };
         });
 
-        const countryClicksArray = Object.entries(countryClicksMap).map(([countryCode, clicks]) => ({
-          countryCode,
-          clicks
-        }));
+        // Use Promise.all to wait for all promises to resolve
+        const countryClicksArray = await Promise.all(promises);
 
+        // Sort the array in parallel
         const sortedCountryClicks = countryClicksArray.sort((a, b) => b.clicks - a.clicks);
+
+        // Slice and set the result
         const top10CountryClicks = sortedCountryClicks.slice(0, 10);
         console.log('Sorted Country Clicks:', top10CountryClicks);
         setSortedCountryClicks(top10CountryClicks);

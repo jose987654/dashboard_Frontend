@@ -7,6 +7,7 @@ const DashboardDefault = Loadable(lazy(() => import('../views/dashboard/Default'
 const AdsComponent = Loadable(lazy(() => import('../views/utilities/Ads_data')));
 const EmailComponent = Loadable(lazy(() => import('../views/utilities/Email')));
 const SearchComponent = Loadable(lazy(() => import('../views/utilities/SearchConsole')));
+const WordsComponent = Loadable(lazy(() => import('../views/utilities/Keyword_planner')));
 const SamplePage = Loadable(lazy(() => import('../views/sample-page')));
 
 const MainRoutes = {
@@ -42,6 +43,19 @@ const MainRoutes = {
           element: (
             <PrivateRoutes>
               <AdsComponent />
+            </PrivateRoutes>
+          )
+        }
+      ]
+    },
+    {
+      path: 'dashboard',
+      children: [
+        {
+          path: 'keywords',
+          element: (
+            <PrivateRoutes>
+              <WordsComponent />
             </PrivateRoutes>
           )
         }

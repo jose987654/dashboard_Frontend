@@ -32,6 +32,14 @@ const utilities = {
       breadcrumbs: false
     },
     {
+      id: 'util-typography-planner',
+      title: 'Keyword Planner API',
+      type: 'item',
+      url: '/dashboard/keywords',
+      icon: icons.IconAd,
+      breadcrumbs: false
+    },
+    {
       id: 'util-shadow',
       title: 'Email',
       type: 'item',
