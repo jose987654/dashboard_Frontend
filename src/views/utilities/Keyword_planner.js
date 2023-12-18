@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 // import { Grid, Link } from '@mui/material'; useState,
 import PropTypes from 'prop-types';
 // import MuiTypography from '@mui/material/Typography';
-import { Grid, TextField, Button, Chip, Box, Card } from '@mui/material';
+import { Grid, TextField, Button, Chip, Box, Card, Typography } from '@mui/material';
 import SubCard from '../../ui-component/cards/SubCard';
 import useTokenStatus from '../../services/status';
 import MainCard from '../../ui-component/cards/MainCard';
@@ -21,6 +21,8 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import TablePagination from '@mui/material/TablePagination';
 import { tablePaginationClasses as classes } from '@mui/material/TablePagination';
+import TableSortLabel from '@mui/material/TableSortLabel';
+
 // import { useDataContext } from '../../store/dataContext';
 import { getKeywords } from '../../services';
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -111,6 +113,10 @@ const KeywordsPlanner = () => {
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.length) : 0;
 
+  const [orderBy, setOrderBy] = useState('text'); // Default sorting column
+  const [order, setOrder] = useState('asc'); // Default sorting order
+  const [filters, setFilters] = useState({});
+
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -161,6 +167,32 @@ const KeywordsPlanner = () => {
       console.log('Please add keywords before generating.');
     }
   };
+
+  const handleSortRequest = (columnId) => {
+    const isAsc = orderBy === columnId && order === 'asc';
+    setOrder(isAsc ? 'desc' : 'asc');
+    setOrderBy(columnId);
+  };
+
+  const handleFilterChange = (columnId, value) => {
+    setFilters((prevFilters) => ({ ...prevFilters, [columnId]: value }));
+  };
+
+  const sortedAndFilteredData = data
+    .filter((row) => {
+      return Object.entries(filters).every(([key, value]) => {
+        return !value || String(row[key]).toLowerCase().includes(value.toLowerCase());
+      });
+    })
+    .sort((a, b) => {
+      const isAsc = order === 'asc';
+      if (orderBy === 'text') {
+        return isAsc ? a[orderBy].localeCompare(b[orderBy]) : b[orderBy].localeCompare(a[orderBy]);
+      } else if (orderBy === 'avg_monthly_searches' || orderBy === 'competition') {
+        return isAsc ? a[orderBy] - b[orderBy] : b[orderBy] - a[orderBy];
+      }
+      return 0;
+    });
 
   useEffect(() => {
     if (tokenStatus === 0) {
@@ -224,20 +256,80 @@ const KeywordsPlanner = () => {
               </Grid>
             </Grid>
             <Grid container spacing={gridSpacing} style={{ minHeight: '530px', marginTop: '10px' }}>
-              {data.length > 0 ? (
+              {sortedAndFilteredData.length > 0 ? (
                 <Grid item xs={12} sm={12} md={12} lg={12}>
                   <TableContainer component={Paper}>
                     <Table sx={{ minWidth: 700 }} aria-label="customized table">
                       <TableHead>
                         <TableRow>
                           <StyledTableCell align="center">No.</StyledTableCell>
-                          <StyledTableCell align="center">Keywords</StyledTableCell>
-                          <StyledTableCell align="center">Avg. Monthly Searches</StyledTableCell>
-                          <StyledTableCell align="center">Competition</StyledTableCell>
+                          <StyledTableCell align="center">
+                            <TableSortLabel
+                              active={orderBy === 'text'}
+                              direction={orderBy === 'text' ? order : 'asc'}
+                              onClick={() => handleSortRequest('text')}
+                            >
+                              Keywords
+                            </TableSortLabel>
+                          </StyledTableCell>
+                          <StyledTableCell align="center">
+                            {' '}
+                            <TableSortLabel
+                              active={orderBy === 'avg_monthly_searches'}
+                              direction={orderBy === 'avg_monthly_searches' ? order : 'asc'}
+                              onClick={() => handleSortRequest('avg_monthly_searches')}
+                            >
+                              Avg. Monthly Searches
+                            </TableSortLabel>
+                          </StyledTableCell>
+                          <StyledTableCell align="center">
+                            {' '}
+                            <TableSortLabel
+                              active={orderBy === 'competition'}
+                              direction={orderBy === 'competition' ? order : 'asc'}
+                              onClick={() => handleSortRequest('competition')}
+                            >
+                              Competition
+                            </TableSortLabel>
+                          </StyledTableCell>
                         </TableRow>
                       </TableHead>
                       <TableBody>
-                        {(rowsPerPage > 0 ? data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : data)?.map((item, index) => (
+                        <TableRow>
+                          <StyledTableCell align="center">
+                            <Typography variant="h6" style={{ textAlign: 'center' }}>
+                              {' '}
+                            </Typography>
+                          </StyledTableCell>
+                          <StyledTableCell align="center">
+                            <TextField
+                              label="Filter Keywords"
+                              variant="standard"
+                              value={filters.text || ''}
+                              onChange={(e) => handleFilterChange('text', e.target.value)}
+                            />
+                          </StyledTableCell>
+                          <StyledTableCell align="center">
+                            <TextField
+                              label="Filter Searches"
+                              variant="standard"
+                              value={filters.avg_monthly_searches || ''}
+                              onChange={(e) => handleFilterChange('avg_monthly_searches', e.target.value)}
+                            />
+                          </StyledTableCell>
+                          <StyledTableCell align="center">
+                            <TextField
+                              label="Filter Competition"
+                              variant="standard"
+                              value={filters.competition || ''}
+                              onChange={(e) => handleFilterChange('competition', e.target.value)}
+                            />
+                          </StyledTableCell>
+                        </TableRow>
+                        {(rowsPerPage > 0
+                          ? sortedAndFilteredData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                          : sortedAndFilteredData
+                        )?.map((item, index) => (
                           <StyledTableRow key={index}>
                             <StyledTableCell align="center">{index + 1}</StyledTableCell>
                             <StyledTableCell align="center">{item?.text}</StyledTableCell>
@@ -258,7 +350,7 @@ const KeywordsPlanner = () => {
                           <CustomTablePagination
                             rowsPerPageOptions={[10, 20, 30, { label: 'All', value: -1 }]}
                             colSpan={3}
-                            count={data.length}
+                            count={sortedAndFilteredData.length}
                             rowsPerPage={rowsPerPage}
                             page={page}
                             slotProps={{
@@ -278,7 +370,53 @@ const KeywordsPlanner = () => {
                     </Table>
                   </TableContainer>
                 </Grid>
-              ) : null}{' '}
+              ) : (
+                <TableContainer component={Paper}>
+                  <Table sx={{ minWidth: 700 }} aria-label="customized table">
+                    <TableHead>
+                      <TableRow>
+                        <StyledTableCell align="center">No.</StyledTableCell>
+                        <StyledTableCell align="center">Keywords</StyledTableCell>
+                        <StyledTableCell align="center">Avg. Monthly Searches</StyledTableCell>
+                        <StyledTableCell align="center">Competition</StyledTableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      <TableRow>
+                        <StyledTableCell align="center">
+                          <Typography variant="h6" style={{ textAlign: 'center' }}>
+                            {' '}
+                          </Typography>
+                        </StyledTableCell>
+                        <StyledTableCell align="center">
+                          <TextField
+                            label="Filter Keywords"
+                            variant="standard"
+                            value={filters.text || ''}
+                            onChange={(e) => handleFilterChange('text', e.target.value)}
+                          />
+                        </StyledTableCell>
+                        <StyledTableCell align="center">
+                          <TextField
+                            label="Filter Searches"
+                            variant="standard"
+                            value={filters.avg_monthly_searches || ''}
+                            onChange={(e) => handleFilterChange('avg_monthly_searches', e.target.value)}
+                          />
+                        </StyledTableCell>
+                        <StyledTableCell align="center">
+                          <TextField
+                            label="Filter Competition"
+                            variant="standard"
+                            value={filters.competition || ''}
+                            onChange={(e) => handleFilterChange('competition', e.target.value)}
+                          />
+                        </StyledTableCell>
+                      </TableRow>
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              )}{' '}
             </Grid>
           </SubCard>
         </Grid>

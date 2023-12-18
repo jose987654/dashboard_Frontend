@@ -1,7 +1,7 @@
 // const ipAddress = '127.0.0.1:5000';
 const ipAddress = '23.88.55.176:5000';
 
-const baseUrl = `http://${ipAddress}`;
+const baseUrl = `https://${ipAddress}`;
 
 import { getEmailList, updateEmail, deleteEmail, deleteAllEmail, addEmailList, delEmailList } from './email';
 import { loginFunction, signupFunction, resetPasswordFunction, logoutFunction, logoutFunctioncustom, statusFunction } from './user';
