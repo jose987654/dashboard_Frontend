@@ -16,26 +16,22 @@ export const DataProvider = ({ children }) => {
 
   const fetchData = async () => {
     try {
-      // const [consoleData, adData] = await Promise.all([getConsoleData(), getAdCampaigns()]);
-      // const res = consoleData?.data;
-      // const res_2 = adData.data.campaigns.length;
-      // setData(res);
-      // setads(adData?.data);
-      // setAdData(res_2);
-      const [consoleDataPromise, adDataPromise] = await Promise.allSettled([getConsoleData(), getAdCampaigns()]);
-
-      // Handle consoleDataPromise result
-      const res = consoleDataPromise.status === 'fulfilled' ? consoleDataPromise.value.data : [];
-
-      // Handle adDataPromise result
-      const adResult = adDataPromise.status === 'fulfilled' ? adDataPromise.value.data.campaigns : [];
-
+      const [consoleData, adData] = await Promise.all([getConsoleData(), getAdCampaigns()]);
+      const res = consoleData?.data;
+      const res_2 = adData.data.campaigns.length;
       setData(res);
-      setads(adResult);
-
-      // Assuming you want to set the length of ad campaigns even if the promise fails
-      const adDataLength = adDataPromise.status === 'fulfilled' ? adDataPromise.value.data.campaigns.length : 0;
-      setAdData(adDataLength);
+      setads(adData?.data);
+      setAdData(res_2);
+      // const [consoleDataPromise, adDataPromise] = await Promise.allSettled([getConsoleData(), getAdCampaigns()]);
+      // // Handle consoleDataPromise result
+      // const res = consoleDataPromise.status === 'fulfilled' ? consoleDataPromise.value.data : [];
+      // // Handle adDataPromise result
+      // const adResult = adDataPromise.status === 'fulfilled' ? adDataPromise.value.data.campaigns : [];
+      // setData(res);
+      // setads(adResult);
+      // // Assuming you want to set the length of ad campaigns even if the promise fails
+      // const adDataLength = adDataPromise.status === 'fulfilled' ? adDataPromise.value.data.campaigns.length : 0;
+      // setAdData(adDataLength);
 
       if (res && res.search_analytics_data && res.search_analytics_data.rows) {
         const { rows } = res.search_analytics_data;
